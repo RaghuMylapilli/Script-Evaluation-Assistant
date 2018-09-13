@@ -42,6 +42,7 @@ def insert_grade(roll_no, script, grade):
     :param grade: The grade to be awarded
     :return: None
     '''
+    pass
 
 def get_query_data(select, date, week, grade, before, after):
     '''
