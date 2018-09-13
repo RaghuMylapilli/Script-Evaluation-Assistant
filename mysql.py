@@ -1,6 +1,12 @@
 import pymysql
 
-database = pymysql.connect('localhost', '', '', 'Shazam')
+notes = '''
+This script will tell you how to format your queries accordingly.
+You have to follow this pattern.
+Add necessary triggers to CreateDatabase.sql file and send a pull request.
+I will further update this file with more required queries and you can fill them.
+'''
+database = pymysql.connect('localhost', 'root', 'anitscse034', 'Shazam')
 db = database.cursor()
 
 def get_all(*tables):
@@ -24,7 +30,9 @@ def get_script_path(roll_no):
     :param roll_no: the roll no of the student
     :return: the path of his scripts
     '''
-    pass
+    query = 'SELECT dir FROM Student where regid = %s' % (roll_no)
+    db.execute(query)
+    data = db.fetchall()
 
 def map_script_to_week(week_no):
     '''
@@ -32,7 +40,10 @@ def map_script_to_week(week_no):
     :param week_no: the week number to do a particular program
     :return: the script/program to be done in that week
     '''
-    pass
+    query = 'SELECT script FROM CoursePlan WHERE week = %s' % (week_no)
+    db.execute(query)
+    data = db.fetchall()
+    return data
 
 def insert_grade(roll_no, script, grade):
     '''
@@ -42,7 +53,9 @@ def insert_grade(roll_no, script, grade):
     :param grade: The grade to be awarded
     :return: None
     '''
-    pass
+    query = 'UPDATE TABLE PythonScript SET grade = %s WHERE regid = %s and script = %s' % (grade, roll_no, script)
+    db.execute(query)
+
 
 def get_query_data(select, date, week, grade, before, after):
     '''
