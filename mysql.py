@@ -1,13 +1,13 @@
 import pymysql
 
-database = pymysql.connect('localhost', 'root', 'anitscse034', 'Shazam')
-db = database.cursor()
+#database = pymysql.connect('localhost', 'root', 'anitscse034', 'Shazam')
+#db = database.cursor()
 
 def get_all(*tables):
     '''
     get_all()
     :return: list of data from all tables
-    WARNING: Calling this function might result in
+    WARNING: Calling this function might result in memory leak
     '''
 
     all_data = []
