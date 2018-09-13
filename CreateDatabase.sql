@@ -15,7 +15,7 @@ create table Student (
 -- Creating PythonScript Table
 create table PythonScript (
 	pyid char(4) primary key,
-	py_file varchar(10) not null,
+	script varchar(10) unique not null,
 	upload_time timestamp not null,
 	grade char(1)
 );
@@ -24,16 +24,20 @@ create table Author (
 	regid char(12)
 	pyid char(4) 
 ); 
--- Adding regid constraint
+-- Adding regid fk constraint
 alter table Author
 add constraint regid_fk foreign key(regid)
 references Student(regid);
--- Adding pyid constriant
+-- Adding pyid fk constriant
 alter table Author
 add constraint pyid_fk foreign key(pyid)
 references PythonScript(pyid);
 -- Creating course plan Table
 create table CoursePlan (
-	week integer primary key auto_increment,
-	program varchar(10) not null
+	week integer not null,
+	script varchar(10) unique not null
 );
+-- Adding script foreign key constraint
+alter table CoursePlan
+add constraint script_fk foreign key(script)
+references PythonScript(script);
