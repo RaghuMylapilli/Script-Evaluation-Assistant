@@ -7,7 +7,7 @@ def get_all(*tables):
     '''
     get_all()
     :return: list of data from all tables
-    WARNING: Calling this function might result in
+    WARNING: Calling this function might result in memory leak
     '''
 
     all_data = []
