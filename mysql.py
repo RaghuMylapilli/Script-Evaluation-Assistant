@@ -1,7 +1,7 @@
 import pymysql
 
-#database = pymysql.connect('localhost', 'root', 'anitscse034', 'Shazam')
-#db = database.cursor()
+database = pymysql.connect('localhost', '', '', 'Shazam')
+db = database.cursor()
 
 def get_all(*tables):
     '''
