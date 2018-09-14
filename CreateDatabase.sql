@@ -16,7 +16,11 @@ create table Student (
 create table PythonScript (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	regid char(12) not null,
+=======
+	regid char(12),
+>>>>>>> parent of 79532e2... Pytest
 =======
 	regid char(12),
 >>>>>>> parent of 79532e2... Pytest
