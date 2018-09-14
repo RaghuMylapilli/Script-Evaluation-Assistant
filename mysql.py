@@ -42,6 +42,8 @@ def get_script_path(roll_no):
     query = 'SELECT dir FROM Student where regid = %s' % (roll_no)
     db.execute(query)
     data = db.fetchall()
+    directory = data[0][0]
+    return directory
 
 def map_script_to_week(week_no):
     '''
