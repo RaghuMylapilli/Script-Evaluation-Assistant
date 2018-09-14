@@ -1,7 +1,9 @@
 from tkinter import *
+from contextlib import suppress
 import mysql
 import runtime
 import spreadsheets
+import setup
 
 def get_script_output():
     roll_no = rollno_entry.get()
@@ -24,29 +26,29 @@ def get_script_output():
     output_var.set(output)
 
 def increment_rollno():
-    roll_no = int(rollno_entry.get())
-    roll_no += 1
-    rollno_set.set(str(roll_no))
+    with suppress(ValueError):
+        rollno_str = rollno_entry.get()
+        roll_no = int(rollno_str)
+        roll_no += 1
+        rollno_set.set(str(roll_no))
 
 def decrement_rollno():
-    roll_no = int(rollno_entry.get())
-    if roll_no == 1: return
-    roll_no -= 1
-    rollno_set.set(str(roll_no))
+    with suppress(ValueError):
+        roll_no = int(rollno_entry.get())
+        if roll_no == 1: return
+        roll_no -= 1
+        rollno_set.set(str(roll_no))
 
 def award_grade():
-    roll_no = int(rollno_entry.get())
+    with suppress(ValueError):
+        roll_no = int(rollno_entry.get())
 
     week_no = weekno_entry.get()
     script_name = mysql.map_script_to_week(week_no)
     if script_name is None: return
-
     grade = grade_entry.get()
 
     mysql.insert_grade(roll_no, script_name, grade)
-
-def new_window():
-    spreadsheets.display(mysql)
 
 mysql.initialise_database()
 
@@ -102,7 +104,10 @@ rollno_increment.place(x = 870, y = 600, height = 30, width = 120)
 rollno_decrement = Button(window, text = 'Previous', command = decrement_rollno)
 rollno_decrement.place(x = 1020, y = 600, height = 30, width = 120)
 
-spreadsheets_button = Button(window, text = 'SpreadSheets', command = new_window)
+spreadsheets_button = Button(window, text = 'SpreadSheets', command = spreadsheets.display(mysql))
 spreadsheets_button.place(x = 1220, y = 50, height = 30, width = 120)
+
+setup_button = Button(window, text = 'Setup', command = setup.display(mysql))
+setup_button.place(x = 1220, y = 80, height = 30, width = 120)
 
 window.mainloop()
