@@ -52,7 +52,8 @@ def map_script_to_week(week_no):
     query = 'SELECT script FROM CoursePlan WHERE week = %s' % (week_no)
     db.execute(query)
     data = db.fetchall()
-    return data
+    scripts = [script[0] for script in data]
+    return scripts
 
 def insert_grade(roll_no, script, grade):
     '''
