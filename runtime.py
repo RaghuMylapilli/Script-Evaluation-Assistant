@@ -1,5 +1,6 @@
 import subprocess
 import time
+import os
 
 def execute(script, path, input_data):
     '''
@@ -24,5 +25,8 @@ def execute(script, path, input_data):
                                 stdout=output_file)
         stop = time.time()
         output_file.write('Time Taken: ' + str(stop - start) + '\n\n')
-
     return status.returncode
+
+def test_execute():
+    assert 0 == execute('hello.py', os.getcwd() + '/files', 'Ajay')
+    assert 0 == execute('hello.py', os.getcwd() + '/files', '5')
