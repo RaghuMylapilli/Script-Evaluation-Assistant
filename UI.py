@@ -50,6 +50,12 @@ def award_grade():
 
     mysql.insert_grade(roll_no, script_name, grade)
 
+def display_spreadsheets_ui():
+    spreadsheets.display(mysql)
+
+def display_setup_ui():
+    setup.display(mysql)
+
 mysql.initialise_database()
 
 window = Tk()
@@ -104,10 +110,10 @@ rollno_increment.place(x = 870, y = 600, height = 30, width = 120)
 rollno_decrement = Button(window, text = 'Previous', command = decrement_rollno)
 rollno_decrement.place(x = 1020, y = 600, height = 30, width = 120)
 
-spreadsheets_button = Button(window, text = 'SpreadSheets', command = spreadsheets.display(mysql))
+spreadsheets_button = Button(window, text = 'SpreadSheets', command = display_spreadsheets_ui)
 spreadsheets_button.place(x = 1220, y = 50, height = 30, width = 120)
 
-setup_button = Button(window, text = 'Setup', command = setup.display(mysql))
+setup_button = Button(window, text = 'Setup', command = display_setup_ui)
 setup_button.place(x = 1220, y = 80, height = 30, width = 120)
 
 window.mainloop()

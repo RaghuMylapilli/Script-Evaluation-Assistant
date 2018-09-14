@@ -77,7 +77,7 @@ def display(mysql):
     grade_label = Label(window, text = 'Grade', relief = RAISED)
     grade_label.place(x = 10, y = 180, height = 30, width = 100)
 
-    grade_spinbox = Spinbox(window, values = ('A', 'B', 'C', 'D', 'E', 'F'))
+    grade_spinbox = Spinbox(window, values = ('All', 'A', 'B', 'C', 'D', 'E', 'F'))
     grade_spinbox.place(x = 140, y = 180)
 
     generate_button = Button(window, text = 'Generate Spreadsheet', command = generate_spreadsheet)

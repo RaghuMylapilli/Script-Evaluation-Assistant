@@ -1,4 +1,5 @@
 import pymysql
+import csv
 
 notes = '''
 This script will tell you how to format your queries accordingly.
@@ -20,7 +21,9 @@ def initialise_database():
     '''
     db.execute("SHOW DATABASES LIKE 'Shazam'")
     databases = db.fetchall()
-    if 'Shazam' in databases: return
+    if ('Shazam',) in databases:
+        db.execute('USE Shazam')
+        return
 
     with open('CreateDatabase.sql', 'r') as queries_file:
         queries = queries_file.read()
@@ -75,3 +78,32 @@ def get_query_data(select, date, week, grade, before, after):
     :return: query data
     '''
     pass
+
+def init_student_table(student_file):
+    '''
+    init_student_table(student_file):
+    :param student_file: csv file containing students data
+    :return: None
+
+    Will insert the data from student_file to student table
+    '''
+    with open(student_file) as student_data:
+        student_reader = csv.reader(student_data, delimiter = ',')
+        for student in student_reader:
+            query = "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', %s, '%s')" % tuple(student)
+            db.execute(query)
+
+
+def init_course_table(course_file):
+    '''
+    init_course_table(course_file)
+    :param course_file: csv file containg week to script mapping
+    :return: None
+
+    Will insert the data from course_file to course plan table
+    '''
+    with open(course_file) as course_data:
+        course_reader = csv.reader(course_data, delimiter = ',')
+        for course_map in course_reader:
+            query = "INSERT INTO CoursePlan VALUES (%s, '%s')" % tuple(course_map)
+            db.execute(query)
