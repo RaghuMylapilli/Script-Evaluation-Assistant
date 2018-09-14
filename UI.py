@@ -48,6 +48,8 @@ def award_grade():
 def new_window():
     spreadsheets.display(mysql)
 
+mysql.initialise_database()
+
 window = Tk()
 window.geometry('1366x768')
 window.resizable(False, False)

@@ -6,23 +6,29 @@ You have to follow this pattern.
 Add necessary triggers to CreateDatabase.sql file and send a pull request.
 I will further update this file with more required queries and you can fill them.
 '''
-database = pymysql.connect('localhost', 'root', 'anitscse034', 'Shazam')
+database = pymysql.connect('localhost', 'root', 'anitscse034')
 db = database.cursor()
 
-def get_all(*tables):
+def initialise_database():
     '''
-    get_all()
-    :return: list of data from all tables
-    WARNING: Calling this function might result in memory leak
+    initialse_database()
+    :return: None
+    creates database
+    creates tables
+    adds constraints
+    creates triggers and funcs
     '''
+    db.execute("SHOW DATABASES LIKE 'Shazam'")
+    databases = db.fetchall()
+    if 'Shazam' in databases: return
 
-    all_data = []
-    for table in tables:
-        db.execute('SELECT * FROM ' + table)
-        data = db.fetchall()
-        all_data.append(data)
-
-    return all_data
+    with open('CreateDatabase.sql', 'r') as queries_file:
+        queries = queries_file.read()
+        query = queries.split('--')
+        for i in range(0, len(query), 2):
+            query[i].replace('\n', '')
+            if query[i] == '': continue
+            db.execute(query[i])
 
 def get_script_path(roll_no):
     '''

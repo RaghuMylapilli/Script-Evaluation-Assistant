@@ -28,5 +28,6 @@ def execute(script, path, input_data):
     return status.returncode
 
 def test_execute():
-    assert 0 == execute('hello.py', os.getcwd() + '/files', 'Ajay')
+    assert 0 != execute('hello.py', os.getcwd() + '/files', 'Ajay')
     assert 0 == execute('hello.py', os.getcwd() + '/files', '5')
+    assert 0 != execute('nonexist.py', os.getcwd() + '/files', '10')
