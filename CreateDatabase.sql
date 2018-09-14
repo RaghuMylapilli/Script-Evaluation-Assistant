@@ -15,7 +15,11 @@ create table Student (
 -- Creating PythonScript Table
 create table PythonScript (
 <<<<<<< HEAD
+<<<<<<< HEAD
 	regid char(12) not null,
+=======
+	regid char(12),
+>>>>>>> parent of 79532e2... Pytest
 	script varchar(10) unique not null,
 	upload_time timestamp not null,
 	grade char(1)
@@ -26,7 +30,7 @@ add constraint regid_ps_fk foreign key(regid)
 references Student(regid);
 -- Creating course plan Table
 create table CoursePlan (
-	week integer primary key,
+	week integer not null,
 	script varchar(10) unique not null
 );
 -- Adding script foreign key constraint

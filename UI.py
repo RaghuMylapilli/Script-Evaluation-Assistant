@@ -6,10 +6,10 @@ import spreadsheets
 def get_script_output():
     roll_no = rollno_entry.get()
     path = mysql.get_script_path(roll_no)
-    if path is None: return
+
     week_no = weekno_entry.get()
     script_name = mysql.map_script_to_week(week_no)
-    if script_name is None: return
+
     input_text = input_entry.get()
 
     if runtime.execute(script_name, path, input_text) == 0:
@@ -39,7 +39,6 @@ def award_grade():
 
     week_no = weekno_entry.get()
     script_name = mysql.map_script_to_week(week_no)
-    if script_name is None: return
 
     grade = grade_entry.get()
 

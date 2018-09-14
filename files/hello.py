@@ -1,2 +1,2 @@
-data = int(input())
-print(data + 5)
+data = input()
+print(datadsf)
