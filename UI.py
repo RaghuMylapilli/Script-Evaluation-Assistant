@@ -9,13 +9,12 @@ def get_script_output():
     roll_no = rollno_entry.get()
     path = mysql.get_script_path(roll_no)
     if path is None: return
-    week_no = weekno_entry.get()
-    script_name = mysql.map_script_to_week(week_no)
-    if script_name is None: return
+    script_no = scriptno_spinbox.get()
+    script = mysql.get_script(script_no)
+    if script is None: return
     input_text = input_entry.get()
 
-    if runtime.execute(script_name, path, input_text) == 0:
-        window.configure(background = 'white')
+    if runtime.execute(script, path, input_text) == 0:
         file = open(path + '/op.txt', 'r')
         output = file.read()
         file.close()
@@ -43,12 +42,10 @@ def award_grade():
     with suppress(ValueError):
         roll_no = int(rollno_entry.get())
 
-    week_no = weekno_entry.get()
-    script_name = mysql.map_script_to_week(week_no)
-    if script_name is None: return
-    grade = grade_entry.get()
+    script_id = scriptno_spinbox.get()
 
-    mysql.insert_grade(roll_no, script_name, grade)
+    grade = grade_entry.get()
+    mysql.insert_grade(roll_no, script_id, grade)
 
 def display_spreadsheets_ui():
     spreadsheets.display(mysql)
@@ -80,11 +77,11 @@ rollno_set = StringVar()
 rollno_entry = Entry(window, textvariable = rollno_set)
 rollno_entry.place(x = 720, y = 50, height = 30, width = 120)
 
-weekno_label = Label(window, text = 'Week No', relief = RAISED)
-weekno_label.place(x = 600, y = 100, height = 30, width = 100)
+scriptno_label = Label(window, text = 'Script No', relief = RAISED)
+scriptno_label.place(x = 600, y = 100, height = 30, width = 100)
 
-weekno_entry = Entry(window)
-weekno_entry.place(x = 720, y = 100, height = 30, width = 120)
+scriptno_spinbox = Spinbox(window, values = mysql.get_script_names())
+scriptno_spinbox.place(x = 720, y = 100, height = 30, width = 120)
 
 input_label = Label(window, text = 'Input', relief = RAISED)
 input_label.place(x = 600, y = 150, height = 30, width = 100)

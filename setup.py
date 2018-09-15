@@ -10,15 +10,16 @@ def display(mysql):
     Displays an UI to setup students data, course plan
     '''
 
-    def parse_and_insert():
+    def config_student():
         student_file = student_entry.get()
+        mysql.init_student_table(student_file)
+
+    def config_course():
         course_file = course_entry.get()
 
-        mysql.init_student_table(student_file)
-        mysql.init_course_table(course_file)
 
     window = Tk()
-    window.geometry('500x300')
+    window.geometry('600x100')
     window.resizable(False, False)
     window.title('Setup')
 
@@ -28,11 +29,14 @@ def display(mysql):
     student_entry = Entry(window)
     student_entry.place(x = 140, y = 10, height = 30, width = 300)
 
+    sconfig_button = Button(window, text = 'Configure', command = config_student)
+    sconfig_button.place(x = 480, y = 10, height = 30, width = 100)
+
     course_label = Label(window, text = 'Course Plan', relief = RAISED)
     course_label.place(x = 10, y = 50, height = 30, width = 100)
 
     course_entry = Entry(window)
     course_entry.place(x = 140, y = 50, height = 30, width = 300)
 
-    submit = Button(window, text = 'Setup', command = parse_and_insert)
-    submit.place(x = 140, y = 90, height = 30, width = 100)
+    cconfig_button = Button(window, text = 'Configure', command = config_course)
+    cconfig_button.place(x = 480, y = 50, height = 30, width = 100)

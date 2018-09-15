@@ -25,13 +25,14 @@ def initialise_database():
         db.execute('USE Shazam')
         return
 
-    with open('CreateDatabase.sql', 'r') as queries_file:
-        queries = queries_file.read()
-        query = queries.split('--')
-        for i in range(0, len(query), 2):
-            query[i].replace('\n', '')
-            if query[i] == '': continue
-            db.execute(query[i])
+    for file in ('CreateDatabase.sql', 'Operations.sql'):
+        with open(file, 'r') as queries_file:
+            queries = queries_file.read()
+            query = queries.split('--')
+            for i in range(0, len(query), 2):
+                query[i].replace('\n', '')
+                if query[i] == '': continue
+                db.execute(query[i])
 
 def get_script_path(roll_no):
     '''
@@ -39,45 +40,55 @@ def get_script_path(roll_no):
     :param roll_no: the roll no of the student
     :return: the path of his scripts
     '''
-    query = 'SELECT dir FROM Student where regid = %s' % (roll_no)
+    query = 'SELECT dir FROM Student where reg_id = %s' % (roll_no)
     db.execute(query)
     data = db.fetchall()
     directory = data[0][0]
     return directory
 
-def map_script_to_week(week_no):
+def get_script_names():
     '''
-    map_scipt_to_week(week_no)
-    :param week_no: the week number to do a particular program
-    :return: the script/program to be done in that week
-    '''
-    query = 'SELECT script FROM CoursePlan WHERE week = %s' % (week_no)
+    get_script_names()
+    :return: returns a tuple of all script names
+
+    query = 'SELECT script_name FROM Script'
     db.execute(query)
-    data = db.fetchall()
-    scripts = [script[0] for script in data]
-    return scripts
+    scripts = db.fetchall()
+    script_names = (script[0] for script in scripts)
+    return script_names
+    '''
+    script_names = ['script ' + str(i) for i in range(1, 11)]
+    return tuple(script_names)
+
+def get_script(script_id):
+    '''
+    get_script(reg_id,, script_id)
+    :param reg_id: Registration id of student
+    :param script_id: Script id
+    :return: The script_name
+    '''
+    query = "SELECT script_name FROM Script WHERE script_id = '%s'" % (script_id)
+    db.execute(query)
+    script = db.fetchall()
+    return script[0][0]
 
 def insert_grade(roll_no, script, grade):
     '''
-    insert_grade(roll_no, script)
+    insert_grade(roll_no, script, grade)
     :param roll_no: The roll no of the student
     :param script: The script to be awarded
     :param grade: The grade to be awarded
     :return: None
     '''
-    query = 'UPDATE TABLE PythonScript SET grade = %s WHERE regid = %s and script = %s' % (grade, roll_no, script)
+    query = "UPDATE TABLE Grade SET grade = %s WHERE reg_id = '%s' and script_id = '%s'" % (grade, roll_no, script)
     db.execute(query)
 
 
-def get_query_data(select, date, week, grade, before, after):
+def get_query_data(week, grade):
     '''
-    get_query_data(select, date, week, grade, before, after
-    :param select: What to select
-    :param date: When to select
+    get_query_data(week, grade)
     :param week: Which week
     :param grade: A to F
-    :param before: True if yes
-    :param after: True if yes
     :return: query data
     '''
     pass
@@ -94,19 +105,4 @@ def init_student_table(student_file):
         student_reader = csv.reader(student_data, delimiter = ',')
         for student in student_reader:
             query = "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', %s, '%s')" % tuple(student)
-            db.execute(query)
-
-
-def init_course_table(course_file):
-    '''
-    init_course_table(course_file)
-    :param course_file: csv file containg week to script mapping
-    :return: None
-
-    Will insert the data from course_file to course plan table
-    '''
-    with open(course_file) as course_data:
-        course_reader = csv.reader(course_data, delimiter = ',')
-        for course_map in course_reader:
-            query = "INSERT INTO CoursePlan VALUES (%s, '%s')" % tuple(course_map)
             db.execute(query)

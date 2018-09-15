@@ -4,7 +4,7 @@ create database Shazam;
 use Shazam;
 -- Creating Student Table --
 create table Student (
-	regid char(12) primary key,
+	reg_id char(12) primary key,
 	first_name varchar(15) not null,
 	middle_name varchar(15),
 	last_name varchar(15) not null,
@@ -12,23 +12,24 @@ create table Student (
 	gpa float(2) not null,
 	dir varchar(50) not null
 );
--- Creating PythonScript Table --
-create table PythonScript (
-	regid char(12) not null,
-	script varchar(10) unique not null,
-	upload_time timestamp not null,
-	grade char(1)
+-- Creating Script Table --
+create table Script (
+    script_id char(2) primary key,
+    script_name varchar(20) unique not null,
+    script_desc varchar(100),
+    script_input varchar(100) not null
 );
--- Adding regid fk --
-alter table PythonScript
-add constraint regid_ps_fk foreign key(regid)
-references Student(regid);
--- Creating course plan Table --
-create table CoursePlan (
-	week integer not null,
-	script varchar(10) unique not null
+-- Creating Grading Table --
+create table Grade (
+    reg_id char(12) not null,
+    script_id varchar(20) not null,
+    grade integer not null
 );
--- Adding script foreign key constraint --
-alter table CoursePlan
-add constraint script_fk foreign key(script)
-references PythonScript(script);
+-- adding reg_id constraint --
+alter table Grade
+add constraint regid_fk foreign key(reg_id)
+references Student(reg_id);
+-- adding script_id constraint --
+alter table Grade
+add constraint script_fk foreign key(script_id)
+references Script(script_id);
