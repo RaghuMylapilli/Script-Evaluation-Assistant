@@ -27,8 +27,6 @@ create table Grade (
 create table Student_audit (
 	reg_id char(12) ,
         name varchar(50),
-	dob date ,
-	dir varchar(50) ,
 	marks integer ,
 	action varchar(10),
 	change_of_time timestamp 
@@ -37,8 +35,6 @@ create table Student_audit (
 create table Script_audit (
     script_id char(4) ,
     script_name varchar(20) ,
-    script_desc varchar(100),
-    script_input varchar(100),
     action varchar(10),
     change_of_time timestamp 
 	
