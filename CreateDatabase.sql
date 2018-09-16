@@ -21,7 +21,9 @@ create table Script (
 create table Grade (
     reg_id char(12) not null,
     script_id char(4) not null,
-    grade integer not null
+    grade integer not null,
+    date_of_grading date not null
+	
 );
 -- adding reg_id constraint --
 alter table Grade
