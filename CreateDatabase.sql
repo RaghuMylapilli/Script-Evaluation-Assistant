@@ -12,15 +12,15 @@ create table Student (
 );
 -- Creating Script Table --
 create table Script (
-    script_id char(2) primary key,
+    script_id char(4) primary key,
     script_name varchar(20) unique not null,
     script_desc varchar(100),
-    script_input varchar(100) not null
+    script_input varchar(100)
 );
 -- Creating Grading Table --
 create table Grade (
     reg_id char(12) not null,
-    script_id varchar(20) not null,
+    script_id char(4) not null,
     grade integer not null
 );
 -- adding reg_id constraint --

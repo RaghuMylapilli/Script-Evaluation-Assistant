@@ -20,7 +20,7 @@ def initialise_database():
     adds constraints
     creates triggers and funcs
     '''
-    db.execute("SHOW DATABASES LIKE 'SEA'")
+    db.execute("SHOW DATABASES")
     databases = db.fetchall()
     if ('SEA',) in databases:
         db.execute('USE SEA')
@@ -34,6 +34,34 @@ def initialise_database():
                 query[i].replace('\n', ' ')
                 if query[i] == '': continue
                 db.execute(query[i])
+
+def init_student_table(student_file):
+    '''
+    init_student_table(student_file):
+    :param student_file: csv file containing students data
+    :return: None
+
+    Will insert the data from student_file to student table
+    '''
+    with open(student_file) as student_data:
+        student_reader = csv.reader(student_data, delimiter = ',')
+        for student in student_reader:
+            query = "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', %s)" % tuple(student)
+            db.execute(query)
+
+def init_scripts_table(scripts_file):
+    '''
+    init_scripts_table(scripts_file)
+    :param scripts_file: csv file containign scripts data
+    :return: None
+
+    Will insert the data from scripts_file to script table
+    '''
+    with open(scripts_file) as script_data:
+        script_reader = csv.reader(script_data, delimiter=',')
+        for script in script_reader:
+            query = "INSERT INTO Script VALUES ('%s', '%s', '%s', '%s')" % tuple(script)
+            db.execute(query)
 
 def get_script_path(roll_no):
     '''
@@ -81,17 +109,19 @@ def get_input_text(script_id):
     input_text = db.fetchall()[0][0]
     return input_text
 
-def insert_grade(roll_no, script, grade):
+def award_grade(reg_id, script_id, grade):
     '''
-    insert_grade(roll_no, script, grade)
+    award_grade(roll_no, script, grade)
     :param roll_no: The roll no of the student
     :param script: The script to be awarded
     :param grade: The grade to be awarded
     :return: None
     '''
-    query = "UPDATE TABLE Grade SET grade = %s WHERE reg_id = '%s' and script_id = '%s'" % (grade, roll_no, script)
+    if db.execute("SELECT * FROM Grade WHERE reg_id = '%s' and script_id = '%s'" % (reg_id, script_id)) == 1:
+        query = "UPDATE TABLE Grade SET grade = %s WHERE reg_id = '%s' and script_id = '%s'" % (grade, reg_id, script_id)
+    else:
+        query = "INSERT INTO Grade VALUES ('%s', '%s', %s)" % (reg_id, script_id, grade)
     db.execute(query)
-
 
 def get_query_data(script_id, grade, bound):
     '''
@@ -105,17 +135,3 @@ def get_query_data(script_id, grade, bound):
     db.execute(query)
     query_data = db.fetchall()
     return query_data
-
-def init_student_table(student_file):
-    '''
-    init_student_table(student_file):
-    :param student_file: csv file containing students data
-    :return: None
-
-    Will insert the data from student_file to student table
-    '''
-    with open(student_file) as student_data:
-        student_reader = csv.reader(student_data, delimiter = ',')
-        for student in student_reader:
-            query = "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', %s)" % tuple(student)
-            db.execute(query)

@@ -45,7 +45,7 @@ def award_grade():
     script_id = scriptno_spinbox.get()
 
     grade = grade_entry.get()
-    mysql.insert_grade(roll_no, script_id, grade)
+    mysql.award_grade(roll_no, script_id, grade)
 
 def display_spreadsheets_ui():
     spreadsheets.display(mysql)
