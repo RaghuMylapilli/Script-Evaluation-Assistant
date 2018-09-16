@@ -23,6 +23,34 @@ create table Grade (
     script_id char(4) not null,
     grade integer not null
 );
+--Creating Student_audit Table --
+create table Student_audit (
+	reg_id char(12) ,
+        name varchar(50),
+	dob date ,
+	dir varchar(50) ,
+	marks integer ,
+	action varchar(10),
+	change_of_time timestamp 
+);
+--Creating Script_audit Table -- 
+create table Script_audit (
+    script_id char(4) ,
+    script_name varchar(20) ,
+    script_desc varchar(100),
+    script_input varchar(100),
+    action varchar(10),
+    change_of_time timestamp 
+	
+);
+--Creating Grade_audit Table --
+create table Grade_audit(
+    reg_id char(12) ,
+    script_id char(4),
+    grade integer,
+    action varchar(10),
+    change_of_time timestamp 
+);
 -- adding reg_id constraint --
 alter table Grade
 add constraint regid_fk foreign key(reg_id)
