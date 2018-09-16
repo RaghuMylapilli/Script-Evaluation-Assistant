@@ -8,11 +8,11 @@ import setup
 def get_script_output():
     roll_no = rollno_entry.get()
     path = mysql.get_script_path(roll_no)
-    if path is None: return
     script_no = scriptno_spinbox.get()
     script = mysql.get_script(script_no)
-    if script is None: return
     input_text = input_entry.get()
+    if input_text == '***':
+        input_text = mysql.get_input_text(script_no)
 
     if runtime.execute(script, path, input_text) == 0:
         file = open(path + '/op.txt', 'r')

@@ -1,16 +1,14 @@
 -- Creating Database --
-create database Shazam;
--- Using/naviagte to Shazam database --
-use Shazam;
+create database SEA;
+-- Using/naviagte to Sea database --
+use SEA;
 -- Creating Student Table --
 create table Student (
 	reg_id char(12) primary key,
-	first_name varchar(15) not null,
-	middle_name varchar(15),
-	last_name varchar(15) not null,
+    name varchar(50) not null,
 	dob date not null,
-	gpa float(2) not null,
-	dir varchar(50) not null
+	dir varchar(50) not null,
+	marks integer not null
 );
 -- Creating Script Table --
 create table Script (
@@ -31,5 +29,5 @@ add constraint regid_fk foreign key(reg_id)
 references Student(reg_id);
 -- adding script_id constraint --
 alter table Grade
-add constraint script_fk foreign key(script_id)
+add constraint scriptid_fk foreign key(script_id)
 references Script(script_id);

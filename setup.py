@@ -40,3 +40,5 @@ def display(mysql):
 
     cconfig_button = Button(window, text = 'Configure', command = config_course)
     cconfig_button.place(x = 480, y = 50, height = 30, width = 100)
+
+    window.mainloop()
