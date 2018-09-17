@@ -65,5 +65,29 @@ begin
 	if length(reg_id) < 12 then set reg_id = null
 	if marks > 15 then set marks = null 	
 end$
--- Resetting delimiter
+-- Resetting delimiter--
 DELIMITER ;
+--changing delimiter--
+DELIMITER $
+--creating trigger on Grade Table--
+create trigger after_grade_insertion after insert on Grade
+for each row
+begin
+	insert into Grade_audit
+	set reg_id=new.reg_id,
+	script_id=new.script_id,
+	grade=new.grade,
+	action='insert',
+	change_of_time=timestamp(now());
+ends$
+--creating trigger after update on Grade Table--
+create trigger after_grade_update after update on Grade
+for eeach row
+begin
+	insert into Grade_audit
+	set reg_id=old.reg_id,
+	script_id=old.script_id,
+	grade=new.grade,
+	action='update',
+	change_of_time=timestamp(now());
+ends$
