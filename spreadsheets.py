@@ -22,10 +22,10 @@ def display(mysql):
         data = mysql.get_query_data(script, grade, bound)
 
         now = datetime.datetime.now()
-        file_name = str(now.year) + '_' + str(now.month) + '_' + str(now.day)
+        file_name = str(now.year) + '_' + str(now.month) + '_' + str(now.day) + '_'
         file_name += str(now.hour) + '_' + str(now.minute) + '_' + str(now.second)
 
-        with open('/Users/ajayraj/Documents/Shazam/' + file_name + '.csv', 'w') as sheet:
+        with open('/Users/ajayraj/Documents/ScriptEvaluator/' + file_name + '.csv', 'w') as sheet:
             writer = csv.writer(sheet, delimiter = ',')
             for row in data:
                 writer.writerow(row)
@@ -47,7 +47,7 @@ def display(mysql):
     grade_bound_label = Label(window, text = 'Grade Bound', relief = RAISED)
     grade_bound_label.place(x = 10, y = 90, height = 30, width = 100)
 
-    grade_bound_spinbox = Spinbox(window, values = ('>', '=', '<'))
+    grade_bound_spinbox = Spinbox(window, values = ('All', '>', '=', '<'))
     grade_bound_spinbox.place(x = 140, y = 90)
 
     grade_label = Label(window, text = 'Grade', relief = RAISED)
