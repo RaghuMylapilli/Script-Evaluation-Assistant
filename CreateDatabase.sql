@@ -31,6 +31,7 @@ create table Student_audit (
 	reg_id char(12) ,
         name varchar(50),
 	marks integer ,
+	email_id varchar(30),
 	action varchar(10),
 	change_of_time timestamp 
 );
