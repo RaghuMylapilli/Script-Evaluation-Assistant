@@ -7,7 +7,7 @@ begin
         name = old.name,
 		marks = old.marks,
 		action = 'before update',							
-        change_of_time = timestamp(now()); 
+        time_of_change = timestamp(now()); 
 end;
 -- Creting trigger for audit insert --
 create trigger after_student_update after update on Student 
@@ -18,7 +18,7 @@ begin
         name = new.name,
 		marks = new.marks,
 		action = 'after update',
-        change_of_time = timestamp(now()); 
+        time_of_change = timestamp(now()); 
 end;
 -- Creating trigger for audit insert --
 create trigger after_student_delete after delete on Student 
@@ -29,7 +29,7 @@ begin
         name = old.name,
 		marks = old.marks,
 		action = 'delete',
-        change_of_time = timestamp(now()); 
+        time_of_change = timestamp(now()); 
 end;
 -- Creating after trigger --
 create trigger after_student_insertion after insert on Student 
@@ -40,7 +40,7 @@ begin
 	name = new.name,
 	marks = new.marks,
 	action = 'insertion',
-	change_of_time = timestamp(now());
+	time_of_change = timestamp(now());
 end;
 -- --
 create trigger after_grade_insertion after insert on Grade
@@ -51,7 +51,7 @@ begin
 	script_id=new.script_id,
 	grade=new.grade,
 	action='insert',
-	change_of_time=timestamp(now());
+	time_of_change=timestamp(now());
 end;
 --creating trigger after update on Grade Table--
 create trigger after_grade_update after update on Grade
@@ -62,5 +62,5 @@ begin
 	script_id=old.script_id,
 	grade=new.grade,
 	action='update',
-	change_of_time=timestamp(now());
+	time_of_change=timestamp(now());
 end;

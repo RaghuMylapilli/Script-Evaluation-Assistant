@@ -32,14 +32,14 @@ create table Student_audit (
 	marks integer,
 	email_id varchar(30),
 	action varchar(10),
-	change_of_time timestamp
+	time_of_change timestamp
 );
 --Creating Script_audit Table --
 create table Script_audit (
     script_id char(4),
     script_name varchar(20),
     action varchar(10),
-    change_of_time timestamp
+    time_of_change timestamp
 );
 --Creating Grade_audit Table --
 create table Grade_audit(
@@ -47,7 +47,7 @@ create table Grade_audit(
     script_id char(4),
     grade integer,
     action varchar(10),
-    change_of_time timestamp
+    time_of_change timestamp
 );
 -- adding reg_id constraint --
 alter table Grade
