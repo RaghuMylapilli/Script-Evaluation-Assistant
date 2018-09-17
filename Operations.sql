@@ -9,7 +9,7 @@ begin
 	name = old.name,
 	marks = old.marks,
 	action = 'before update',							
-        change_of_time = timestamp(now()); 
+	change_of_time = timestamp(now()); 
 end$
 -- Resetting Delimiter --
 DELIMITER ;
@@ -20,11 +20,11 @@ create trigger after_student_update after update on Student
 for each row 
 begin 
 	insert into Student_audit
-    	set reg_id = old.reg_id,
-        name = new.name,
+	set reg_id = old.reg_id,
+	name = new.name,
 	marks = new.marks,
 	action = 'after update',
-        change_of_time = timestamp(now()); 
+	change_of_time = timestamp(now()); 
 end$
 -- Resetting Delimiter --
 DELIMITER ;
@@ -33,11 +33,11 @@ create trigger after_student_delete after delete on Student
 for each row 
 begin 
 	insert into Student_audit
-    	set reg_id = old.reg_id,
-        name = old.name,
+	set reg_id = old.reg_id,
+	name = old.name,
 	marks = old.marks,
 	action = 'delete',
-        change_of_time = timestamp(now()); 
+	change_of_time = timestamp(now()); 
 end$
 -- Resetting delimiter --
 DELIMITER ;
