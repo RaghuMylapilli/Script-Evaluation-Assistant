@@ -8,7 +8,8 @@ create table Student (
     name varchar(50) not null,
 	dob date not null,
 	dir varchar(50) not null,
-	marks integer not null
+	marks integer not null,
+	email_id varchar(30) not null
 );
 -- Creating Script Table --
 create table Script (
