@@ -31,9 +31,11 @@ def initialise_database():
             queries = queries_file.read()
             query = queries.split('--')
             for i in range(0, len(query), 2):
-                query[i].replace('\n', ' ')
-                if query[i] == '': continue
-                db.execute(query[i])
+                new_query = query[i]
+                new_query = new_query.replace('\n', ' ')
+                new_query = new_query.replace('\t', ' ')
+                if new_query == '' or 'delimiter' in new_query.lower(): continue
+                db.execute(new_query)
 
 def init_student_table(student_file):
     '''
@@ -46,7 +48,7 @@ def init_student_table(student_file):
     with open(student_file) as student_data:
         student_reader = csv.reader(student_data, delimiter = ',')
         for student in student_reader:
-            query = "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', %s)" % tuple(student)
+            query = "INSERT INTO Student VALUES ('%s', '%s', '%s', '%s', '%s', %s)" % tuple(student)
             db.execute(query)
 
 def init_scripts_table(scripts_file):

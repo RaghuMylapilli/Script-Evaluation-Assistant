@@ -7,9 +7,9 @@ create table Student (
 	reg_id char(12) primary key,
     name varchar(50) not null,
 	dob date not null,
+    email_id varchar(30) not null,
 	dir varchar(50) not null,
-	marks integer not null,
-	email_id varchar(30) not null
+	marks integer not null
 );
 -- Creating Script Table --
 create table Script (
@@ -24,32 +24,30 @@ create table Grade (
     script_id char(4) not null,
     grade integer not null,
     date_of_grading date not null
-	
 );
 --Creating Student_audit Table --
 create table Student_audit (
-	reg_id char(12) ,
-        name varchar(50),
-	marks integer ,
+	reg_id char(12),
+    name varchar(50),
+	marks integer,
 	email_id varchar(30),
 	action varchar(10),
-	change_of_time timestamp 
+	change_of_time timestamp
 );
---Creating Script_audit Table -- 
+--Creating Script_audit Table --
 create table Script_audit (
-    script_id char(4) ,
-    script_name varchar(20) ,
+    script_id char(4),
+    script_name varchar(20),
     action varchar(10),
-    change_of_time timestamp 
-	
+    change_of_time timestamp
 );
 --Creating Grade_audit Table --
 create table Grade_audit(
-    reg_id char(12) ,
+    reg_id char(12),
     script_id char(4),
     grade integer,
     action varchar(10),
-    change_of_time timestamp 
+    change_of_time timestamp
 );
 -- adding reg_id constraint --
 alter table Grade
