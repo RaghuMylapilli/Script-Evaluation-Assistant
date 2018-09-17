@@ -5,10 +5,10 @@ create trigger before_student_update before update on Student
 for each row 
 begin 
 	insert into Student_audit
-    	set reg_id = old.reg_id,
-        name = old.name,
-		marks = old.marks,
-		action = 'before update',							
+	set reg_id = old.reg_id,
+	name = old.name,
+	marks = old.marks,
+	action = 'before update',							
         change_of_time = timestamp(now()); 
 end$
 -- Resetting Delimiter --
@@ -22,8 +22,8 @@ begin
 	insert into Student_audit
     	set reg_id = old.reg_id,
         name = new.name,
-		marks = new.marks,
-		action = 'after update',
+	marks = new.marks,
+	action = 'after update',
         change_of_time = timestamp(now()); 
 end$
 -- Resetting Delimiter --
@@ -35,8 +35,8 @@ begin
 	insert into Student_audit
     	set reg_id = old.reg_id,
         name = old.name,
-		marks = old.marks,
-		action = 'delete',
+	marks = old.marks,
+	action = 'delete',
         change_of_time = timestamp(now()); 
 end$
 -- Resetting delimiter --
