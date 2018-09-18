@@ -1,4 +1,4 @@
---Creating trigger for before insert on Student--
+--Creating trigger for before insert on Student tested --
 create trigger before_student_insert before insert on Student
 for each row 
 begin
@@ -8,51 +8,63 @@ begin
 	end if;
 	if new.dir not like '%/%' then signal sqlstate '34234';
 	end if;
-	if new.dob <= now() then signal sqlstate '23678' ;
+	if new.dob >= now() then signal sqlstate '23678' ;
 	end if;
 end;
--- Creating trigger for audit insert --
+-- Creating trigger for audit insert tested --
 create trigger before_student_update before update on Student 
 for each row 
 begin 
 	insert into Student_audit
     	set reg_id = old.reg_id,
-        name = old.name,
+       		 name = old.name,
+		dob = old.dob,
+		email_id = old.email_id,
+		dir = old.dir,
 		marks = old.marks,
 		action = 'before update',							
         time_of_change = timestamp(now()); 
 end;
--- Creting trigger for audit insert --
+-- Creting trigger for audit insert tested--
 create trigger after_student_update after update on Student 
 for each row 
 begin 
 	insert into Student_audit
     	set reg_id = old.reg_id,
-        name = new.name,
+         	 name = new.name,
+		dob = old.dob,
+		email_id = old.email_id,
+		dir = old.dir,
 		marks = new.marks,
 		action = 'after update',
         time_of_change = timestamp(now()); 
 end;
--- Creating trigger for audit insert --
+-- Creating trigger for audit insert tested --
 create trigger after_student_delete after delete on Student 
 for each row 
 begin 
 	insert into Student_audit
     	set reg_id = old.reg_id,
-        name = old.name,
+      	        name = old.name,
+		dob = old.dob,
+		email_id = old.email_id,
+		dir = old.dir,
 		marks = old.marks,
 		action = 'delete',
         time_of_change = timestamp(now()); 
 end;
--- Creating after trigger --
+-- Creating after trigger tested --
 create trigger after_student_insertion after insert on Student 
 for each row 
 begin 
 	insert into Student_audit
 	set reg_id = new.reg_id,
-	name = new.name,
-	marks = new.marks,
-	action = 'insertion',
+		name = new.name,
+		dob = new.dob,
+		email_id = new.email_id,
+		dir = new.dir,
+	        marks = new.marks,
+		action = 'insertion',
 	time_of_change = timestamp(now());
 end;
 -- --
