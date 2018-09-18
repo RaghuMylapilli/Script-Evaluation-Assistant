@@ -53,7 +53,7 @@ begin
 		action = 'delete',
         time_of_change = timestamp(now()); 
 end;
--- Creating after trigger --
+-- Creating after trigger tested --
 create trigger after_student_insertion after insert on Student 
 for each row 
 begin 
