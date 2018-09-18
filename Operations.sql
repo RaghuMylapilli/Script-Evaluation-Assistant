@@ -1,3 +1,10 @@
+--Creating trigger for before insert on Student--
+create trigger before_student_insert before insert on Student
+for each row 
+begin
+	if length(new.reg_id) < 12 then signal sqlstate '45000';
+	end if;
+end;
 -- Creating trigger for audit insert --
 create trigger before_student_update before update on Student 
 for each row 
