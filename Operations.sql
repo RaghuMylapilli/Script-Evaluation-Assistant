@@ -4,6 +4,8 @@ for each row
 begin
 	if length(new.reg_id) < 12 then signal sqlstate '45000';
 	end if;
+	if new.email_id not like '%@%' then signal sqlstate '45001';
+	end if;
 end;
 -- Creating trigger for audit insert --
 create trigger before_student_update before update on Student 
