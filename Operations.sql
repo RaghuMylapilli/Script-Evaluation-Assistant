@@ -8,6 +8,8 @@ begin
 	end if;
 	if new.dir not like '%/%' then signal sqlstate '34234';
 	end if;
+	if new.dob <= now() then signal sqlstate '23678' ;
+	end if;
 end;
 -- Creating trigger for audit insert --
 create trigger before_student_update before update on Student 
