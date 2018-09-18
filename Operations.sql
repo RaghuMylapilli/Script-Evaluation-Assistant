@@ -67,25 +67,62 @@ begin
 		action = 'insertion',
 	time_of_change = timestamp(now());
 end;
--- --
-create trigger after_grade_insertion after insert on Grade
+--Creating trigger before insert on grade table tested--
+create trigger before_grade_insert before insert on Grade
+for each row
+begin 
+	if length(new.reg_id) < 12 then signal sqlstate '45231';
+	end if;
+	if new.grade > 10 then signal sqlstate '34257';
+	end if;
+	if new.date_of_grading != curdate() then signal sqlstate '56742';
+	end if;
+end;
+--Creating trigger after insert on grade table tested--
+create trigger after_grade_insert after insert on Grade
 for each row
 begin
 	insert into Grade_audit
-	set reg_id=new.reg_id,
-	script_id=new.script_id,
-	grade=new.grade,
-	action='insert',
-	time_of_change=timestamp(now());
+	set reg_id = new.reg_id,
+	script_id = new.script_id,
+	grade = new.grade,
+	date_of_grading = new.date_of_grading,
+	action = 'insertion',
+	time_of_change = timestamp(now());
 end;
---creating trigger after update on Grade Table--
+--Creating trigger after update on Grade Table tested--
 create trigger after_grade_update after update on Grade
 for each row
 begin
 	insert into Grade_audit
-	set reg_id=old.reg_id,
-	script_id=old.script_id,
-	grade=new.grade,
-	action='update',
-	time_of_change=timestamp(now());
+	set reg_id = old.reg_id,
+	script_id = old.script_id,
+	grade = new.grade,
+	date_of_grading = new.date_of_grading,
+	action = 'after update',
+	time_of_change = timestamp(now());
+end;
+--Creating trigger before update on Grade Table tested--
+create trigger before_grade_update before update on Grade
+for each row
+begin
+	insert into Grade_audit
+	set reg_id = old.reg_id,
+	script_id = old.script_id,
+	grade = old.grade,
+	date_of_grading = old.date_of_grading,
+	action = 'before update',
+	time_of_change = timestamp(now());
+end;
+--Creating trigger for deletion on Grade Table tested--
+create trigger delete_grade after delete on Grade
+for each row
+begin
+	insert into Grade_audit
+	set reg_id = old.reg_id,
+	script_id = old.script_id,
+	grade = old.grade,
+	date_of_grading = old.date_of_grading,
+	action = 'delete',
+	time_of_change = timestamp(now());
 end;
