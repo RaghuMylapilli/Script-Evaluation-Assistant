@@ -31,7 +31,7 @@ create table Student_audit (
     name varchar(50),
 	marks integer,
 	email_id varchar(30),
-	action varchar(10),
+	action varchar(20),
 	time_of_change timestamp
 );
 --Creating Script_audit Table --
