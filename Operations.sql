@@ -126,4 +126,3 @@ begin
 	action = 'delete',
 	time_of_change = timestamp(now());
 end;
-
