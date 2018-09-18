@@ -29,6 +29,9 @@ create table Grade (
 create table Student_audit (
 	reg_id char(12),
         name varchar(50),
+	dob date,
+	email_id varchar(30),
+	dir varchar(50),
 	marks integer,
 	action varchar(20),
 	time_of_change timestamp
