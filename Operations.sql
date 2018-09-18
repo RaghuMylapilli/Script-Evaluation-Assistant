@@ -1,4 +1,4 @@
---Creating trigger for before insert on Student --
+--Creating trigger for before insert on Student tested --
 create trigger before_student_insert before insert on Student
 for each row 
 begin
@@ -11,7 +11,7 @@ begin
 	if new.dob >= now() then signal sqlstate '23678' ;
 	end if;
 end;
--- Creating trigger for audit insert --
+-- Creating trigger for audit insert tested --
 create trigger before_student_update before update on Student 
 for each row 
 begin 
@@ -22,7 +22,7 @@ begin
 		action = 'before update',							
         time_of_change = timestamp(now()); 
 end;
--- Creting trigger for audit insert --
+-- Creting trigger for audit insert tested--
 create trigger after_student_update after update on Student 
 for each row 
 begin 
@@ -33,7 +33,7 @@ begin
 		action = 'after update',
         time_of_change = timestamp(now()); 
 end;
--- Creating trigger for audit insert --
+-- Creating trigger for audit insert tested --
 create trigger after_student_delete after delete on Student 
 for each row 
 begin 
