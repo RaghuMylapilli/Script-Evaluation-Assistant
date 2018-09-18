@@ -103,4 +103,16 @@ begin
 	action = 'before update',
 	time_of_change = timestamp(now());
 end;
+--Creating trigger for deletion on Grade Table tested--
+create trigger delete_grade after delete on Grade
+for each row
+begin
+	insert into Grade_audit
+	set reg_id = old.reg_id,
+	script_id = old.script_id,
+	grade = old.grade,
+	date_of_grading = old.date_of_grading,
+	action = 'delete',
+	time_of_change = timestamp(now());
+end;
 
