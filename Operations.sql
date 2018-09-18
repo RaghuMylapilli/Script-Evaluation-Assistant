@@ -6,6 +6,8 @@ begin
 	end if;
 	if new.email_id not like '%@%' then signal sqlstate '45001';
 	end if;
+	if new.dir not like '%/%' then signal sqlstate '34234';
+	end if;
 end;
 -- Creating trigger for audit insert --
 create trigger before_student_update before update on Student 
