@@ -1,4 +1,4 @@
---Creating trigger for before insert on Student--
+--Creating trigger for before insert on Student --
 create trigger before_student_insert before insert on Student
 for each row 
 begin
@@ -8,7 +8,7 @@ begin
 	end if;
 	if new.dir not like '%/%' then signal sqlstate '34234';
 	end if;
-	if new.dob <= now() then signal sqlstate '23678' ;
+	if new.dob >= now() then signal sqlstate '23678' ;
 	end if;
 end;
 -- Creating trigger for audit insert --
