@@ -79,14 +79,15 @@ begin
 	action = 'insert',
 	time_of_change = timestamp(now());
 end;
---creating trigger after update on Grade Table--
+--Creating trigger after update on Grade Table tested--
 create trigger after_grade_update after update on Grade
 for each row
 begin
 	insert into Grade_audit
-	set reg_id=old.reg_id,
-	script_id=old.script_id,
-	grade=new.grade,
-	action='update',
-	time_of_change=timestamp(now());
+	set reg_id = old.reg_id,
+	script_id = old.script_id,
+	grade = new.grade,
+	date_of_grading = new.date_of_grading,
+	action = 'update',
+	time_of_change = timestamp(now());
 end;
