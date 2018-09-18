@@ -67,6 +67,12 @@ begin
 		action = 'insertion',
 	time_of_change = timestamp(now());
 end;
+--Creating trigger before insert on grade table tested--
+create trigger before_grade_insert before insert on Grade
+for each row
+begin
+	
+end;
 --Creating trigger after insert on grade table tested--
 create trigger after_grade_insert after insert on Grade
 for each row
