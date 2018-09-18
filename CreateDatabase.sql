@@ -48,7 +48,8 @@ create table Grade_audit(
     reg_id char(12),
     script_id char(4),
     grade integer,
-    action varchar(10),
+    date_of_grading date,
+    action varchar(20),
     time_of_change timestamp
 );
 -- adding reg_id constraint --
