@@ -54,7 +54,7 @@ def init_student_table(student_file):
 def init_scripts_table(scripts_file):
     '''
     init_scripts_table(scripts_file)
-    :param scripts_file: csv file containign scripts data
+    :param scripts_file: csv file containing scripts data
     :return: None
 
     Will insert the data from scripts_file to script table
@@ -71,7 +71,7 @@ def get_script_path(roll_no):
     :param roll_no: the roll no of the student
     :return: the path of his scripts
     '''
-    query = 'SELECT dir FROM Student where reg_id = %s' % (roll_no)
+    query = "SELECT dir FROM Student where reg_id = '%s'" % (roll_no)
     db.execute(query)
     data = db.fetchall()
     directory = data[0][0]
