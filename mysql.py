@@ -100,13 +100,25 @@ def get_script(script_id):
     script = db.fetchall()
     return script[0][0]
 
-def get_input_text(script_name):
+def get_script_id(script_name):
+    '''
+    get_script_id(script_name)
+    :param script_name: The name of the script
+    :return: The id of the script
+    '''
+
+    query = "SELECT script_id FROM Script WHERE script_name = '%s'" % (script_name)
+    db.execute(query)
+    script_id = db.fetchall()[0][0]
+    return script_id
+
+def get_input_text(script_id):
     '''
     get_input_text(script_id)
     :param script_id: The script id of the script to extract the input text
     :return: The input text
     '''
-    query = "SELECT script_input FROM Script WHERE script_name = '%s'" % (script_name)
+    query = "SELECT script_input FROM Script WHERE script_id = '%s'" % (script_id)
     db.execute(query)
     input_text = db.fetchall()[0][0]
     return input_text
@@ -115,14 +127,15 @@ def award_grade(reg_id, script_id, grade):
     '''
     award_grade(roll_no, script, grade)
     :param roll_no: The roll no of the student
-    :param script: The script to be awarded
+    :param script_id: The script to be awarded
     :param grade: The grade to be awarded
     :return: None
     '''
-    if db.execute("SELECT * FROM Grade WHERE reg_id = '%s' and script_id = '%s'" % (reg_id, script_id)) == 1:
-        query = "UPDATE TABLE Grade SET grade = %s WHERE reg_id = '%s' and script_id = '%s'" % (grade, reg_id, script_id)
+    check_query = "SELECT * FROM Grade WHERE reg_id = '%s' and script_id = '%s'" % (reg_id, script_id)
+    if db.execute(check_query) == 1:
+        query = "UPDATE Grade SET grade = %s WHERE reg_id = '%s' and script_id = '%s'" % (grade, reg_id, script_id)
     else:
-        query = "INSERT INTO Grade VALUES ('%s', '%s', %s)" % (reg_id, script_id, grade)
+        query = "insert into Grade values ('%s', '%s', %s, curdate())" % (reg_id, script_id, grade)
     db.execute(query)
 
 def get_query_data(script_id, grade, bound):

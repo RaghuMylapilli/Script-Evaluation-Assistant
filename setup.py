@@ -1,4 +1,3 @@
-import csv
 from tkinter import *
 
 def display(mysql):

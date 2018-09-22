@@ -9,11 +9,12 @@ def get_script_output():
     roll_no = rollno_entry.get()
     path = mysql.get_script_path(roll_no)
     script_name = scriptname_spinbox.get()
+    script_id = mysql.get_script_id(script_name)
     input_text = input_entry.get()
     if input_text == '***':
-        input_text = mysql.get_input_text(script_name)
+        input_text = mysql.get_input_text(script_id)
 
-    if runtime.execute(script, path, input_text) == 0:
+    if runtime.execute(script_name, path, input_text) == 0:
         file = open(path + '/op.txt', 'r')
         output = file.read()
         file.close()
@@ -41,8 +42,8 @@ def award_grade():
     with suppress(ValueError):
         roll_no = int(rollno_entry.get())
 
-    script_id = scriptname_spinbox.get()
-
+    script_name = scriptname_spinbox.get()
+    script_id = mysql.get_script_id(script_name)
     grade = grade_entry.get()
     mysql.award_grade(roll_no, script_id, grade)
 
