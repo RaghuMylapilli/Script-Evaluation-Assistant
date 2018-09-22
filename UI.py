@@ -8,11 +8,10 @@ import setup
 def get_script_output():
     roll_no = rollno_entry.get()
     path = mysql.get_script_path(roll_no)
-    script_no = scriptno_spinbox.get()
-    script = mysql.get_script(script_no)
+    script_name = scriptname_spinbox.get()
     input_text = input_entry.get()
     if input_text == '***':
-        input_text = mysql.get_input_text(script_no)
+        input_text = mysql.get_input_text(script_name)
 
     if runtime.execute(script, path, input_text) == 0:
         file = open(path + '/op.txt', 'r')
@@ -42,7 +41,7 @@ def award_grade():
     with suppress(ValueError):
         roll_no = int(rollno_entry.get())
 
-    script_id = scriptno_spinbox.get()
+    script_id = scriptname_spinbox.get()
 
     grade = grade_entry.get()
     mysql.award_grade(roll_no, script_id, grade)
@@ -77,11 +76,11 @@ rollno_set = StringVar()
 rollno_entry = Entry(window, textvariable = rollno_set)
 rollno_entry.place(x = 720, y = 50, height = 30, width = 120)
 
-scriptno_label = Label(window, text = 'Script No', relief = RAISED)
-scriptno_label.place(x = 600, y = 100, height = 30, width = 100)
+scriptname_label = Label(window, text = 'Script Name', relief = RAISED)
+scriptname_label.place(x = 600, y = 100, height = 30, width = 100)
 
-scriptno_spinbox = Spinbox(window, values = mysql.get_script_names())
-scriptno_spinbox.place(x = 720, y = 100, height = 30, width = 120)
+scriptname_spinbox = Spinbox(window, values = mysql.get_script_names())
+scriptname_spinbox.place(x = 720, y = 100, height = 30, width = 200)
 
 input_label = Label(window, text = 'Input', relief = RAISED)
 input_label.place(x = 600, y = 150, height = 30, width = 100)

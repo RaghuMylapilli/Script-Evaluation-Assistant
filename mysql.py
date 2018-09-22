@@ -85,8 +85,8 @@ def get_script_names():
     query = 'SELECT script_name FROM Script'
     db.execute(query)
     scripts = db.fetchall()
-    script_names = (script[0] for script in scripts)
-    return script_names
+    script_names = [script[0] for script in scripts]
+    return tuple(script_names)
 
 def get_script(script_id):
     '''
@@ -100,13 +100,13 @@ def get_script(script_id):
     script = db.fetchall()
     return script[0][0]
 
-def get_input_text(script_id):
+def get_input_text(script_name):
     '''
     get_input_text(script_id)
     :param script_id: The script id of the script to extract the input text
     :return: The input text
     '''
-    query = "SELECT script_input FROM Script WHERE script_id = '%s'" % (script_id)
+    query = "SELECT script_input FROM Script WHERE script_name = '%s'" % (script_name)
     db.execute(query)
     input_text = db.fetchall()[0][0]
     return input_text

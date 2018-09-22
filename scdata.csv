@@ -1,3 +1,5 @@
-31A1,Fork,using fork(),A B C
-31A2,Perror,,PQR
-31A3,Array Sum,Sum of array,1 2 3 4 5
+3101,Sum of 10 ,Program to find sum of 10 numbers,1 2 3 4 5 6 7 8 9 10
+3102,Prime Number,Program to check for prime number,7
+3103,Display n,Program to display n numbers,20
+3104,Divisibility ,Program to check divisibility,10 5
+3105,Factors,Program to find factors of a number,20
