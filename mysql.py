@@ -135,7 +135,7 @@ def award_grade(reg_id, script_id, grade):
     if db.execute(check_query) == 1:
         query = "UPDATE Grade SET grade = %s WHERE reg_id = '%s' and script_id = '%s'" % (grade, reg_id, script_id)
     else:
-        query = "insert into Grade values ('%s', '%s', %s, curdate())" % (reg_id, script_id, grade)
+        query = "INSERT INTO Grade VALUES ('%s', '%s', %s, curdate())" % (reg_id, script_id, grade)
     db.execute(query)
 
 def get_query_data(script_id, grade, bound):
