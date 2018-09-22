@@ -25,33 +25,6 @@ create table Grade (
     grade integer not null,
     date_of_grading date not null
 );
---Creating Student_audit Table --
-create table Student_audit (
-	reg_id char(12),
-    name varchar(50),
-	dob date,
-	email_id varchar(30),
-	dir varchar(50),
-	marks integer,
-	action varchar(20),
-	time_of_change timestamp
-);
---Creating Script_audit Table --
-create table Script_audit (
-    script_id char(4),
-    script_name varchar(20),
-    action varchar(10),
-    time_of_change timestamp
-);
---Creating Grade_audit Table --
-create table Grade_audit(
-    reg_id char(12),
-    script_id char(4),
-    grade integer,
-    date_of_grading date,
-    action varchar(20),
-    time_of_change timestamp
-);
 -- adding reg_id constraint --
 alter table Grade
 add constraint regid_fk foreign key(reg_id)
