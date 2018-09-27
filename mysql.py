@@ -147,9 +147,9 @@ def get_query_data(script_id, grade, bound):
     :return: query data
     '''
     if bound == 'All':
-        query = "SELECT * FROM Student"
+        query = "SELECT * FROM Student S, Grade G"
     else:
-        query = "SELECT * FROM Student S, Grade G WHERE G.grade %s '%s' AND G.script_id = '%s' AND G.reg_id = S.reg_id" % (bound, grade, script_id)
+        query = "SELECT * FROM Student S, Grade G WHERE G.grade %s %s AND G.script_id = '%s' AND G.reg_id = S.reg_id" % (bound, grade, script_id)
     db.execute(query)
     query_data = db.fetchall()
     return query_data

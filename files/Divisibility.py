@@ -1,5 +1,4 @@
-num1=int(input("enter 1st number:"))
-num2=int(input("enter 2nd number:"))
+num1, num2 = list(map(int, input().split()))
 if num1%num2==0:
   print(num1,"is divisible by",num2)
 else:

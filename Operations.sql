@@ -4,7 +4,7 @@ for each row
 begin
 	if length(new.reg_id) < 12 then signal sqlstate '45000';
 	end if;
-	if new.email_id not like '%@%' then signal sqlstate '45001';
+	if new.email_id not like '%@%.%' then signal sqlstate '45001';
 	end if;
 	if new.dir not like '%/%' then signal sqlstate '34234';
 	end if;

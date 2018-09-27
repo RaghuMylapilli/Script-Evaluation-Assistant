@@ -18,6 +18,7 @@ def get_script_output():
         file = open(path + '/op.txt', 'r')
         output = file.read()
         file.close()
+        window.configure(background = 'white')
     else:
         window.configure(background = 'red')
         output = 'ERROR!'
