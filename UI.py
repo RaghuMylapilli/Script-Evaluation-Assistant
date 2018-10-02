@@ -40,8 +40,10 @@ def decrement_rollno():
         rollno_set.set(str(roll_no))
 
 def award_grade():
-    with suppress(ValueError):
+    try:
         roll_no = int(rollno_entry.get())
+    except:
+        return
 
     script_name = scriptname_spinbox.get()
     script_id = mysql.get_script_id(script_name)
@@ -59,7 +61,8 @@ mysql.initialise_database()
 window = Tk()
 window.geometry('1366x768')
 window.resizable(False, False)
-window.title('Shazam')
+window.title('Script Evaluation Assistant')
+window.configure(background = 'light yellow')
 
 masthead = Label(window, text = 'Desiged and Developed by Shazam')
 masthead.place(x = 450, y = 700, height = 50, width = 500)

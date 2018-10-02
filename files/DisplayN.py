@@ -1,5 +1,3 @@
-lst=[]
-num=int(input("enter no.of values"))
+num=int(input())
 for i in range(0,num):
-	lst.append(num)
-print(lst)
+	print(i)

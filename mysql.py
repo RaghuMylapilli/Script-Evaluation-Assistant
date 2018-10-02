@@ -13,8 +13,8 @@ db = database.cursor()
 
 def initialise_database():
     '''
-    initialse_database()
     :return: None
+    Pareses CreateDatabase.sql and Operations.sql to fetch SQL statements and
     creates database
     creates tables
     adds constraints
@@ -34,12 +34,11 @@ def initialise_database():
                 new_query = query[i]
                 new_query = new_query.replace('\n', ' ')
                 new_query = new_query.replace('\t', ' ')
-                if new_query == '' or 'delimiter' in new_query.lower(): continue
+                if new_query == '': continue
                 db.execute(new_query)
 
 def init_student_table(student_file):
     '''
-    init_student_table(student_file):
     :param student_file: csv file containing students data
     :return: None
 
@@ -53,7 +52,6 @@ def init_student_table(student_file):
 
 def init_scripts_table(scripts_file):
     '''
-    init_scripts_table(scripts_file)
     :param scripts_file: csv file containing scripts data
     :return: None
 
@@ -67,7 +65,6 @@ def init_scripts_table(scripts_file):
 
 def get_script_path(roll_no):
     '''
-    get_script_path(roll_no)
     :param roll_no: the roll no of the student
     :return: the path of his scripts
     '''
@@ -79,7 +76,6 @@ def get_script_path(roll_no):
 
 def get_script_names():
     '''
-    get_script_names()
     :return: returns a tuple of all script names
     '''
     query = 'SELECT script_name FROM Script'
@@ -90,7 +86,6 @@ def get_script_names():
 
 def get_script(script_id):
     '''
-    get_script(reg_id,, script_id)
     :param reg_id: Registration id of student
     :param script_id: Script id
     :return: The script_name
@@ -102,7 +97,6 @@ def get_script(script_id):
 
 def get_script_id(script_name):
     '''
-    get_script_id(script_name)
     :param script_name: The name of the script
     :return: The id of the script
     '''
@@ -114,7 +108,6 @@ def get_script_id(script_name):
 
 def get_input_text(script_id):
     '''
-    get_input_text(script_id)
     :param script_id: The script id of the script to extract the input text
     :return: The input text
     '''
@@ -125,7 +118,6 @@ def get_input_text(script_id):
 
 def award_grade(reg_id, script_id, grade):
     '''
-    award_grade(roll_no, script, grade)
     :param roll_no: The roll no of the student
     :param script_id: The script to be awarded
     :param grade: The grade to be awarded
@@ -138,18 +130,24 @@ def award_grade(reg_id, script_id, grade):
         query = "INSERT INTO Grade VALUES ('%s', '%s', %s, curdate())" % (reg_id, script_id, grade)
     db.execute(query)
 
-def get_query_data(script_id, grade, bound):
+def get_query_data(script_name, grade, bound):
     '''
-    get_query_data(script_id, grade)
-    :param script_id: The script id for evaluation
+    :param script_id: The script name for evaluation
     :param grade: A to F
     :param bound: >, = or < the grade
     :return: query data
     '''
     if bound == 'All':
-        query = "SELECT * FROM Student S, Grade G"
+        bound = '>='
+        grade = 0
+
+    if script_name == 'All':
+        query = "SELECT S.reg_id, S.name, S.marks FROM Student S WHERE S.marks %s %s" % (bound, grade)
     else:
-        query = "SELECT * FROM Student S, Grade G WHERE G.grade %s %s AND G.script_id = '%s' AND G.reg_id = S.reg_id" % (bound, grade, script_id)
+        scriptid_query = "SELECT script_id from Script where script_name = '%s'" % (script_name)
+        db.execute(scriptid_query)
+        script_id = db.fetchall()[0][0]
+        query = "SELECT S.reg_id, S.name, S.marks FROM Student S, Grade G WHERE G.grade %s %s AND G.script_id = '%s' AND G.reg_id = S.reg_id" % (bound, grade, script_id)
     db.execute(query)
     query_data = db.fetchall()
     return query_data

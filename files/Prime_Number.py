@@ -1,10 +1,8 @@
-num=int(input("enter a number :"))
-if num>1:
-  for i in range(2,num/2):
-      if num%i==0:
-        print(num,"is not a prime number")
-        break
-  else:
-     print(num,"is a prime number")
+import math
+num=int(input())
+
+for i in range(0, math.sqrt(num)):
+	if num % i == 0:
+		print('not prime')
 else:
-  print(num,"is not a prime number")
+	print('prime')
