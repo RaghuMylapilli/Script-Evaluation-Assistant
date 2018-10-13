@@ -26,16 +26,19 @@ def initialise_database():
         db.execute('USE SEA')
         return
 
-    for file in ('CreateDatabase.sql', 'Operations.sql'):
-        with open(file, 'r') as queries_file:
-            queries = queries_file.read()
-            query = queries.split('--')
-            for i in range(0, len(query), 2):
-                new_query = query[i]
-                new_query = new_query.replace('\n', ' ')
-                new_query = new_query.replace('\t', ' ')
-                if new_query == '': continue
-                db.execute(new_query)
+    try:
+        for file in ('CreateDatabase.sql', 'Operations.sql'):
+            with open(file, 'r') as queries_file:
+                queries = queries_file.read()
+                query = queries.split('--')
+                for i in range(0, len(query), 2):
+                    new_query = query[i]
+                    new_query = new_query.replace('\n', ' ')
+                    new_query = new_query.replace('\t', ' ')
+                    if new_query == '': continue
+                    db.execute(new_query)
+    except:
+        db.execute('DROP DATABASE SEA')
 
 def init_student_table(student_file):
     '''
@@ -60,7 +63,20 @@ def init_scripts_table(scripts_file):
     with open(scripts_file) as script_data:
         script_reader = csv.reader(script_data, delimiter=',')
         for script in script_reader:
-            query = "INSERT INTO Script VALUES ('%s', '%s', '%s', '%s')" % tuple(script)
+            query = "INSERT INTO Script VALUES ('%s', '%s', '%s', '%s', '%s')" % tuple(script)
+            db.execute(query)
+
+def init_course_outcomes(course_file):
+    '''
+    :param course_file: csv file containing course outcomes data
+    :return: None
+
+    Init course outcomes data
+    '''
+    with open(course_file) as course_data:
+        course_reader = csv.reader(course_data, delimiter=',')
+        for course in course_reader:
+            query = "INSERT INTO CourseOutcomes VALUES ('%s', '%s')" % tuple(course)
             db.execute(query)
 
 def get_script_path(roll_no):

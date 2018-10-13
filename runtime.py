@@ -4,7 +4,6 @@ import os
 
 def execute(script, path, input_data):
     '''
-    execute(script, path, input_data
     :param script: A string with the script to be executed
     :param path: A string og the path in which the script is present
     :param input_data: A string of the data to be passed as input to the script

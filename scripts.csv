@@ -1,5 +1,5 @@
-3101,sum_of_10.py,Program to find sum of 10 numbers,1 2 3 4 5 6 7 8 9 10
-3102,Prime_Number.py,Program to check for prime number,7
-3103,DisplayN.py,Program to display n numbers,20
-3104,Divisibility.py,Program to check divisibility,10 5
-3105,Factors.py,Program to find factors of a number,20
+3101,sum_of_10.py,Program to find sum of 10 numbers,1 2 3 4 5 6 7 8 9 10,CO1
+3102,Prime_Number.py,Program to check for prime number,7,CO1
+3103,DisplayN.py,Program to display n numbers,20,CO2
+3104,Divisibility.py,Program to check divisibility,10 5,CO2
+3105,Factors.py,Program to find factors of a number,20,CO2

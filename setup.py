@@ -17,13 +17,15 @@ def display(mysql):
         scripts_file = script_entry.get()
         mysql.init_scripts_table(scripts_file)
 
-    '''def config_course():
-        course_file = course_entry.get()'''
+    def config_course():
+        course_file = course_entry.get()
+        mysql.init_course_outcomes(course_file)
 
     window = Tk()
-    window.geometry('600x100')
+    window.geometry('600x150')
     window.resizable(False, False)
     window.title('Setup')
+    window.configure(background = 'light green')
 
     student_label = Label(window, text = 'Student File', relief = RAISED)
     student_label.place(x = 10, y = 10, height = 30, width = 100)
@@ -43,13 +45,13 @@ def display(mysql):
     script_button = Button(window, text = 'Configure', command = config_scripts)
     script_button.place(x = 480, y = 50, height = 30, width = 100)
 
-    '''course_label = Label(window, text = 'Course Plan', relief = RAISED)
+    course_label = Label(window, text = "C.O's", relief = RAISED)
     course_label.place(x = 10, y = 90, height = 30, width = 100)
 
     course_entry = Entry(window)
     course_entry.place(x = 140, y = 90, height = 30, width = 300)
 
     cconfig_button = Button(window, text = 'Configure', command = config_course)
-    cconfig_button.place(x = 480, y = 90, height = 30, width = 100)'''
+    cconfig_button.place(x = 480, y = 90, height = 30, width = 100)
 
     window.mainloop()

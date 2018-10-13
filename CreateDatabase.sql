@@ -16,7 +16,8 @@ create table Script (
     script_id char(4) primary key,
     script_name varchar(20) unique not null,
     script_desc varchar(100),
-    script_input varchar(100)
+    script_input varchar(100),
+    co varchar(4) not null
 );
 -- Creating Grading Table --
 create table Grade (
@@ -33,3 +34,12 @@ references Student(reg_id);
 alter table Grade
 add constraint scriptid_fk foreign key(script_id)
 references Script(script_id);
+-- adding course outcomes table --
+create table CourseOutcomes (
+    co varchar(4) primary key,
+    co_desc varchar(30) not null
+);
+-- adding co constraint --
+alter table Script
+add constraint co_fk foreign key(co)
+references CourseOutcomes(co);

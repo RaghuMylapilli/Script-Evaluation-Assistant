@@ -18,7 +18,7 @@ def get_script_output():
         file = open(path + '/op.txt', 'r')
         output = file.read()
         file.close()
-        window.configure(background = 'white')
+        window.configure(background='light blue')
     else:
         window.configure(background = 'red')
         output = 'ERROR!'
@@ -59,10 +59,10 @@ def display_setup_ui():
 mysql.initialise_database()
 
 window = Tk()
-window.geometry('1366x768')
+window.geometry('1440x900')
 window.resizable(False, False)
 window.title('Script Evaluation Assistant')
-window.configure(background = 'light yellow')
+window.configure(background = 'light blue')
 
 masthead = Label(window, text = 'Desiged and Developed by Shazam')
 masthead.place(x = 450, y = 700, height = 50, width = 500)

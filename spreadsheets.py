@@ -34,7 +34,7 @@ def display(mysql):
     window.geometry('440x300')
     window.resizable(False, False)
     window.title('Queries & SpreadSheets')
-    window.configure(background='light blue')
+    window.configure(background='yellow')
 
     select_label = Label(window, text = 'Get Students Data', relief = RAISED)
     select_label.place(x = 50, y = 10, height = 30, width = 345)
