@@ -36,22 +36,22 @@ def display(mysql):
     sconfig_button = Button(window, text = 'Configure', command = config_student)
     sconfig_button.place(x = 480, y = 10, height = 30, width = 100)
 
-    script_label = Label(window, text = 'Scripts File', relief = RAISED)
-    script_label.place(x = 10, y = 50, height = 30, width = 100)
-
-    script_entry = Entry(window)
-    script_entry.place(x = 140, y = 50, height = 30, width = 300)
-
-    script_button = Button(window, text = 'Configure', command = config_scripts)
-    script_button.place(x = 480, y = 50, height = 30, width = 100)
-
     course_label = Label(window, text = "C.O's", relief = RAISED)
-    course_label.place(x = 10, y = 90, height = 30, width = 100)
+    course_label.place(x = 10, y = 50, height = 30, width = 100)
 
     course_entry = Entry(window)
-    course_entry.place(x = 140, y = 90, height = 30, width = 300)
+    course_entry.place(x = 140, y = 50, height = 30, width = 300)
 
     cconfig_button = Button(window, text = 'Configure', command = config_course)
-    cconfig_button.place(x = 480, y = 90, height = 30, width = 100)
+    cconfig_button.place(x = 480, y = 50, height = 30, width = 100)
+
+    script_label = Label(window, text='Scripts File', relief=RAISED)
+    script_label.place(x=10, y=90, height=30, width=100)
+
+    script_entry = Entry(window)
+    script_entry.place(x=140, y=90, height=30, width=300)
+
+    script_button = Button(window, text='Configure', command=config_scripts)
+    script_button.place(x=480, y=90, height=30, width=100)
 
     window.mainloop()

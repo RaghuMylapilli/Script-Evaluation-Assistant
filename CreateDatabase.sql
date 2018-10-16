@@ -4,12 +4,12 @@ create database SEA;
 use SEA;
 -- Creating Student Table --
 create table Student (
-	reg_id char(12) primary key,
+    reg_id char(12) primary key,
     name varchar(50) not null,
-	dob date not null,
+    dob date not null,
     email_id varchar(30) not null,
-	dir varchar(50) not null,
-	marks integer not null
+    dir varchar(50) not null,
+    marks integer not null
 );
 -- Creating Script Table --
 create table Script (
@@ -36,7 +36,7 @@ add constraint scriptid_fk foreign key(script_id)
 references Script(script_id);
 -- adding course outcomes table --
 create table CourseOutcomes (
-    co varchar(4) primary key,
+    co  varchar(4) primary key,
     co_desc varchar(30) not null
 );
 -- adding co constraint --
