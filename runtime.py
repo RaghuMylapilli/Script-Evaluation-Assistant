@@ -1,8 +1,7 @@
 import subprocess
 import time
-import os
 
-def execute(script, path, input_data):
+def execute(script, runtime, path, input_data):
     '''
     :param script: A string with the script to be executed
     :param path: A string og the path in which the script is present
@@ -17,7 +16,7 @@ def execute(script, path, input_data):
 
     with open(path + '/op.txt', 'w') as output_file:
         start = time.time()
-        status = subprocess.run(['python3', script],
+        status = subprocess.run([runtime, script],
                                 cwd=path,
                                 input=input_data,
                                 encoding='ascii',

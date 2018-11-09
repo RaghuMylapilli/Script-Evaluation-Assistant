@@ -15,8 +15,10 @@ create table Student (
 create table Script (
     script_id char(4) primary key,
     script_name varchar(20) unique not null,
+    script_week integer not null,
     script_desc varchar(100),
     script_input varchar(100),
+    script_runtime varchar(20) not null,
     co varchar(4) not null
 );
 -- Creating Grading Table --

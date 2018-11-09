@@ -43,6 +43,8 @@ end;
 create trigger update_marks_update after update on Grade
 for each row
 begin
+    if new.grade > 15 then signal sqlstate '34257';
+	end if;
     update student
     set marks = avg_marks(new.reg_id)
     where reg_id = new.reg_id;

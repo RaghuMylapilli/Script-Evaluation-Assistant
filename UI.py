@@ -1,20 +1,21 @@
 from tkinter import *
-from contextlib import suppress
 import mysql
 import runtime
 import spreadsheets
 import setup
 
 def get_script_output():
-    roll_no = rollno_entry.get()
+    roll_no = regid_var.get()
     path = mysql.get_script_path(roll_no)
-    script_name = scriptname_spinbox.get()
+    #week_no = weekno_optionmenu.get()
+    script_name = script_var.get()
     script_id = mysql.get_script_id(script_name)
     input_text = input_entry.get()
     if input_text == '***':
         input_text = mysql.get_input_text(script_id)
+    language = mysql.get_script_runtime(script_id)
 
-    if runtime.execute(script_name, path, input_text) == 0:
+    if runtime.execute(script_name, language, path, input_text) == 0:
         file = open(path + '/op.txt', 'r')
         output = file.read()
         file.close()
@@ -25,36 +26,22 @@ def get_script_output():
 
     output_var.set(output)
 
-def increment_rollno():
-    with suppress(ValueError):
-        rollno_str = rollno_entry.get()
-        roll_no = int(rollno_str)
-        roll_no += 1
-        rollno_set.set(str(roll_no))
-
-def decrement_rollno():
-    with suppress(ValueError):
-        roll_no = int(rollno_entry.get())
-        if roll_no == 1: return
-        roll_no -= 1
-        rollno_set.set(str(roll_no))
-
 def award_grade():
     try:
-        roll_no = int(rollno_entry.get())
+        roll_no = int(regid_var.get())
     except:
         return
 
-    script_name = scriptname_spinbox.get()
+    script_name = script_var.get()
     script_id = mysql.get_script_id(script_name)
     grade = grade_entry.get()
     mysql.award_grade(roll_no, script_id, grade)
 
 def display_spreadsheets_ui():
-    spreadsheets.display(mysql)
+    spreadsheets.display()
 
 def display_setup_ui():
-    setup.display(mysql)
+    setup.display()
 
 mysql.initialise_database()
 
@@ -77,15 +64,26 @@ output_label.place(x = 10, y = 50, height = 600, width = 550)
 rollno_label = Label(window, text = 'Roll No', relief = RAISED)
 rollno_label.place(x = 600, y = 50, height = 30, width = 100)
 
-rollno_set = StringVar()
-rollno_entry = Entry(window, textvariable = rollno_set)
-rollno_entry.place(x = 720, y = 50, height = 30, width = 120)
+reg_ids = mysql.get_student_regids()
+regid_var = StringVar(window)
+regid_var.set(reg_ids[0])
+rollno_optionsmenu = OptionMenu(window, regid_var, *reg_ids)
+rollno_optionsmenu.place(x = 720, y = 50, height = 30, width = 150)
 
-scriptname_label = Label(window, text = 'Script Name', relief = RAISED)
-scriptname_label.place(x = 600, y = 100, height = 30, width = 100)
+script_spec = Label(window, text = 'Week & Script', relief = RAISED)
+script_spec.place(x = 600, y = 100, height = 30, width = 100)
 
-scriptname_spinbox = Spinbox(window, values = mysql.get_script_names())
-scriptname_spinbox.place(x = 720, y = 100, height = 30, width = 200)
+weeks = mysql.get_weeks_list()
+week_var = StringVar(window)
+week_var.set(weeks[0])
+week_no = OptionMenu(window, week_var, *weeks)
+week_no.place(x = 720, y = 100, height = 30, width = 70)
+
+script_names = mysql.get_script_names_for_week(week_var.get())
+script_var = StringVar(window)
+script_var.set(script_names[0])
+scriptname_optionmenu = OptionMenu(window, script_var, *script_names)
+scriptname_optionmenu.place(x = 800, y = 100, height = 30, width = 200)
 
 input_label = Label(window, text = 'Input', relief = RAISED)
 input_label.place(x = 600, y = 150, height = 30, width = 100)
@@ -104,12 +102,6 @@ grade_entry.place(x = 720, y = 550, height = 30, width = 120)
 
 grade_button = Button(window, text = 'Award Grade', command = award_grade)
 grade_button.place(x = 720, y = 600, height = 30, width = 120)
-
-rollno_increment = Button(window, text = 'Next', command = increment_rollno)
-rollno_increment.place(x = 870, y = 600, height = 30, width = 120)
-
-rollno_decrement = Button(window, text = 'Previous', command = decrement_rollno)
-rollno_decrement.place(x = 1020, y = 600, height = 30, width = 120)
 
 spreadsheets_button = Button(window, text = 'SpreadSheets', command = display_spreadsheets_ui)
 spreadsheets_button.place(x = 1220, y = 50, height = 30, width = 120)

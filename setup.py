@@ -1,9 +1,9 @@
 from tkinter import *
+import mysql
 
-def display(mysql):
+def display():
     '''
     display(mysql)
-    :param mysql: mysql object to execute queries
     :return: None
 
     Displays an UI to setup students data, course plan

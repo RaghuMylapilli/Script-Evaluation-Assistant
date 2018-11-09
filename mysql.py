@@ -1,5 +1,6 @@
 import pymysql
 import csv
+import setup
 
 notes = '''
 This script will tell you how to format your queries accordingly.
@@ -37,8 +38,13 @@ def initialise_database():
                     new_query = new_query.replace('\t', ' ')
                     if new_query == '': continue
                     db.execute(new_query)
+        setup.display()
+        return True
     except:
         db.execute('DROP DATABASE SEA')
+        return False
+
+
 
 def init_student_table(student_file):
     '''
@@ -63,7 +69,7 @@ def init_scripts_table(scripts_file):
     with open(scripts_file) as script_data:
         script_reader = csv.reader(script_data, delimiter=',')
         for script in script_reader:
-            query = "INSERT INTO Script VALUES ('%s', '%s', '%s', '%s', '%s')" % tuple(script)
+            query = "INSERT INTO Script VALUES ('%s', '%s', %s, '%s', '%s', '%s', '%s')" % tuple(script)
             db.execute(query)
 
 def init_course_outcomes(course_file):
@@ -79,6 +85,40 @@ def init_course_outcomes(course_file):
             query = "INSERT INTO CourseOutcomes VALUES ('%s', '%s')" % tuple(course)
             db.execute(query)
 
+def get_student_regids():
+    '''
+    :return: List of student reg_id
+    '''
+    query = "SELECT reg_id from Student"
+    db.execute(query)
+    reg_ids = db.fetchall()
+    reg_ids = [reg[0] for reg in reg_ids]
+    if reg_ids == []:
+        return ['Reg Id']
+    return reg_ids
+
+def get_script_runtime(script_id):
+    '''
+    :param script_id: The PK of the script
+    :return: string of runtime of the script
+    '''
+    query = "SELECT script_runtime FROM Script WHERE script_id = '%s'" % (script_id)
+    db.execute(query)
+    runtime = db.fetchall()[0][0]
+    return runtime
+
+def get_weeks_list():
+    '''
+    :return: a list of the weeks
+    '''
+    query = "SELECT DISTINCT script_week FROM Script"
+    db.execute(query)
+    weeks = db.fetchall()
+    weeks_list = [str(week[0]) for week in weeks]
+    if weeks_list == []:
+        return ['week no']
+    return weeks_list
+
 def get_script_path(roll_no):
     '''
     :param roll_no: the roll no of the student
@@ -90,14 +130,17 @@ def get_script_path(roll_no):
     directory = data[0][0]
     return directory
 
-def get_script_names():
+def get_script_names_for_week(week_no):
     '''
+    :param week_no: The week in which the program has to be done
     :return: returns a tuple of all script names
     '''
-    query = 'SELECT script_name FROM Script'
+    query = "SELECT script_name FROM Script WHERE script_week = %s" % (week_no)
     db.execute(query)
     scripts = db.fetchall()
     script_names = [script[0] for script in scripts]
+    if script_names == ():
+        return ('script name')
     return tuple(script_names)
 
 def get_script(script_id):

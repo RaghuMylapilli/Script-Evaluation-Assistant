@@ -1,8 +1,9 @@
 from tkinter import *
 import csv
 import datetime
+import mysql
 
-def display(mysql):
+def display():
     '''
     display()
     :return: None
