@@ -43,6 +43,17 @@ def display_spreadsheets_ui():
 def display_setup_ui():
     setup.display()
 
+def weekno_command(week_no):
+    global script_names, script_var, scriptname_optionmenu
+    script_names = mysql.get_script_names_for_week(week_no)
+    script_var.set(script_names[0])
+    scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command=scriptname_command)
+    scriptname_optionmenu.place(x=800, y=100, height=30, width=200)
+
+
+def scriptname_command():
+    pass
+
 mysql.initialise_database()
 
 window = Tk()
@@ -76,13 +87,13 @@ script_spec.place(x = 600, y = 100, height = 30, width = 100)
 weeks = mysql.get_weeks_list()
 week_var = StringVar(window)
 week_var.set(weeks[0])
-week_no = OptionMenu(window, week_var, *weeks)
+week_no = OptionMenu(window, week_var, *weeks, command = weekno_command)
 week_no.place(x = 720, y = 100, height = 30, width = 70)
 
-script_names = mysql.get_script_names_for_week(week_var.get())
+script_names = mysql.get_script_names_for_week('1')
 script_var = StringVar(window)
 script_var.set(script_names[0])
-scriptname_optionmenu = OptionMenu(window, script_var, *script_names)
+scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command = scriptname_command)
 scriptname_optionmenu.place(x = 800, y = 100, height = 30, width = 200)
 
 input_label = Label(window, text = 'Input', relief = RAISED)

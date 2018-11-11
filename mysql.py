@@ -39,10 +39,8 @@ def initialise_database():
                     if new_query == '': continue
                     db.execute(new_query)
         setup.display()
-        return True
     except:
         db.execute('DROP DATABASE SEA')
-        return False
 
 
 
@@ -139,8 +137,8 @@ def get_script_names_for_week(week_no):
     db.execute(query)
     scripts = db.fetchall()
     script_names = [script[0] for script in scripts]
-    if script_names == ():
-        return ('script name')
+    if script_names == []:
+        return ['script name']
     return tuple(script_names)
 
 def get_script(script_id):
