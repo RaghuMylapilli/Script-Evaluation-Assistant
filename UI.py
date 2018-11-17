@@ -7,7 +7,6 @@ import setup
 def get_script_output():
     roll_no = regid_var.get()
     path = mysql.get_script_path(roll_no)
-    #week_no = weekno_optionmenu.get()
     script_name = script_var.get()
     script_id = mysql.get_script_id(script_name)
     input_text = input_entry.get()
@@ -48,12 +47,8 @@ def weekno_command(week_no):
     global script_names, script_var, scriptname_optionmenu
     script_names = mysql.get_script_names_for_week(week_no)
     script_var.set(script_names[0])
-    scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command=scriptname_command)
+    scriptname_optionmenu = OptionMenu(window, script_var, *script_names)
     scriptname_optionmenu.place(x=800, y=100, height=30, width=200)
-
-
-def scriptname_command():
-    pass
 
 mysql.initialise_database()
 
@@ -62,6 +57,25 @@ window.geometry('1440x900')
 window.resizable(False, False)
 window.title('Script Evaluation Assistant')
 window.configure(background = 'light blue')
+
+menubar = Menu(window)
+
+file_menu = Menu(menubar)
+file_menu.add_separator()
+file_menu.add_command(label='Quit', command=exit)
+
+view_menu = Menu(menubar)
+view_menu.add_command(label='Setup', command=display_setup_ui)
+view_menu.add_command(label='SpreadSheets', command=display_spreadsheets_ui)
+view_menu.add_command(label='Insights')
+
+about = Menu(menubar)
+about.add_command(label='Application')
+about.add_command(label='Team')
+
+menubar.add_cascade(label='File', menu=file_menu)
+menubar.add_cascade(label='View', menu=view_menu)
+menubar.add_cascade(label='About', menu=about)
 
 masthead = Label(window, text = 'Desiged and Developed by Shazam')
 masthead.place(x = 450, y = 700, height = 50, width = 500)
@@ -94,7 +108,7 @@ week_no.place(x = 720, y = 100, height = 30, width = 70)
 script_names = mysql.get_script_names_for_week('1')
 script_var = StringVar(window)
 script_var.set(script_names[0])
-scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command = scriptname_command)
+scriptname_optionmenu = OptionMenu(window, script_var, *script_names)
 scriptname_optionmenu.place(x = 800, y = 100, height = 30, width = 200)
 
 input_label = Label(window, text = 'Input', relief = RAISED)
@@ -118,13 +132,8 @@ feedback_label.place(x = 600, y = 400, height = 30, width = 100)
 feedback_entry = Entry(window)
 feedback_entry.place(x = 720, y = 400, height = 100, width = 200)
 
-grade_button = Button(window, text = 'Post Grade & Feedback', command = award_grade, padx = 100, pady = 100)
+grade_button = Button(window, text = 'Post Grade & Feedback', command = award_grade)
 grade_button.place(x = 720, y = 530, height = 30, width = 180)
 
-spreadsheets_button = Button(window, text = 'SpreadSheets', command = display_spreadsheets_ui)
-spreadsheets_button.place(x = 1220, y = 50, height = 30, width = 120)
-
-setup_button = Button(window, text = 'Setup', command = display_setup_ui)
-setup_button.place(x = 1220, y = 80, height = 30, width = 120)
-
+window.config(menu = menubar)
 window.mainloop()
