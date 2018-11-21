@@ -45,12 +45,27 @@ def display_spreadsheets_ui():
 def display_setup_ui():
     setup.display()
 
+def display_script(script_name):
+    roll_no = regid_var.get()
+    path = mysql.get_script_path(roll_no)
+
+    student_code = ''
+    with open(path + '/' + script_name) as code_file:
+        for line in code_file:
+            student_code += line
+    code.set(student_code)
+
 def weekno_command(week_no):
     global script_names, script_var, scriptname_optionmenu
     script_names = mysql.get_script_names_for_week(week_no)
     script_var.set(script_names[0])
-    scriptname_optionmenu = OptionMenu(window, script_var, *script_names)
+    scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command = display_script)
     scriptname_optionmenu.place(x = 1120, y = 100, height = 30, width = 200)
+
+def update_week_script(week_no):
+    weekno_command(week_no)
+    display_script(script_var.get())
+
 
 mysql.initialise_database()
 
@@ -82,12 +97,19 @@ menubar.add_cascade(label='About', menu=about)
 '''masthead = Label(window, text = 'Desiged and Developed by Shazam')
 masthead.place(x = 450, y = 700, height = 50, width = 500)'''
 
+code_label = Label(window, text = 'CODE', relief = RAISED)
+code_label.place(x = 30, y = 50, height = 30, width = 100)
+code = StringVar()
+code.set('Select Script')
+code_lines_data = Label(window, textvariable = code, relief = RAISED, anchor = NW)
+code_lines_data.place(x = 30, y = 80, height = 400, width = 700)
+
 output_title = Label(window, text = 'OUTPUT', relief = RAISED)
-output_title.place(x = 30, y = 450, height = 30, width = 100)
+output_title.place(x = 30, y = 500, height = 30, width = 100)
 
 output_var = StringVar()
 output_entry = Entry(window, textvariable = output_var, justify = LEFT)
-output_entry.place(x = 30, y = 500, height = 200, width = 650)
+output_entry.place(x = 30, y = 530, height = 200, width = 700)
 
 rollno_label = Label(window, text = 'Roll No', relief = RAISED)
 rollno_label.place(x = 900, y = 50, height = 30, width = 100)
@@ -104,13 +126,13 @@ script_spec.place(x = 900, y = 100, height = 30, width = 100)
 weeks = mysql.get_weeks_list()
 week_var = StringVar(window)
 week_var.set(weeks[0])
-week_no = OptionMenu(window, week_var, *weeks, command = weekno_command)
+week_no = OptionMenu(window, week_var, *weeks, command = update_week_script)
 week_no.place(x = 1020, y = 100, height = 30, width = 70)
 
 script_names = mysql.get_script_names_for_week('1')
 script_var = StringVar(window)
 script_var.set(script_names[0])
-scriptname_optionmenu = OptionMenu(window, script_var, *script_names)
+scriptname_optionmenu = OptionMenu(window, script_var, *script_names, command = display_script)
 scriptname_optionmenu.place(x = 1120, y = 100, height = 30, width = 200)
 
 input_label = Label(window, text = 'Input', relief = RAISED)
