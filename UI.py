@@ -83,11 +83,11 @@ menubar.add_cascade(label='About', menu=about)
 masthead.place(x = 450, y = 700, height = 50, width = 500)'''
 
 output_title = Label(window, text = 'OUTPUT', relief = RAISED)
-output_title.place(x = 10, y = 500, height = 30, width = 100)
+output_title.place(x = 30, y = 450, height = 30, width = 100)
 
 output_var = StringVar()
 output_entry = Entry(window, textvariable = output_var, justify = LEFT)
-output_entry.place(x = 10, y = 550, height = 200, width = 800)
+output_entry.place(x = 30, y = 500, height = 200, width = 650)
 
 rollno_label = Label(window, text = 'Roll No', relief = RAISED)
 rollno_label.place(x = 900, y = 50, height = 30, width = 100)
@@ -126,22 +126,22 @@ dynamic_exec = Radiobutton(window, text = 'Dynamic', variable = exec_type, value
 dynamic_exec.place(x = 1100, y = 270)
 
 execute_button = Button(window, text = 'Execute', command = get_script_output)
-execute_button.place(x = 1020, y = 300, height = 30, width = 140)
+execute_button.place(x = 1020, y = 320, height = 30, width = 140)
 
 grade_label = Label(window, text = 'Grade', relief = RAISED)
-grade_label.place(x = 900, y = 350, height = 30, width = 100)
+grade_label.place(x = 900, y = 400, height = 30, width = 100)
 
 grade_entry = Entry(window)
-grade_entry.place(x = 1020, y = 350, height = 30, width = 120)
+grade_entry.place(x = 1020, y = 400, height = 30, width = 120)
 
 feedback_label = Label(window, text = 'Feedback', relief = RAISED)
-feedback_label.place(x = 900, y = 400, height = 30, width = 100)
+feedback_label.place(x = 900, y = 450, height = 30, width = 100)
 
 feedback_entry = Entry(window)
-feedback_entry.place(x = 1020, y = 400, height = 100, width = 300)
+feedback_entry.place(x = 1020, y = 450, height = 100, width = 300)
 
 grade_button = Button(window, text = 'Post Grade & Feedback', command = award_grade)
-grade_button.place(x = 1020, y = 530, height = 30, width = 180)
+grade_button.place(x = 1020, y = 600, height = 30, width = 180)
 
 window.config(menu = menubar)
 window.mainloop()
