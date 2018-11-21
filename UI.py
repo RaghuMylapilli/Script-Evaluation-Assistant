@@ -69,6 +69,15 @@ def update_week_script(week_no):
     weekno_command(week_no)
     display_script(script_var.get())
 
+def save_file():
+    roll_no = regid_var.get()
+    path = mysql.get_script_path(roll_no)
+    code = code_text.get('1.0', END)
+    script_name = script_var.get()
+    if code != 'Select Script':
+        file = open(path + separator + script_name, 'w')
+        file.write(code)
+        file.close()
 
 mysql.initialise_database()
 
@@ -81,6 +90,7 @@ window.configure(background = 'light blue')
 menubar = Menu(window)
 
 file_menu = Menu(menubar)
+file_menu.add_command(label='Save', command=save_file)
 file_menu.add_separator()
 file_menu.add_command(label='Quit', command=exit)
 
