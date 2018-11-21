@@ -1,6 +1,11 @@
 from subprocess import run, PIPE, Popen
 from contextlib import suppress
 import time
+import os
+
+separator = "/"
+if os.name == 'nt':
+    separator = "\\"
 
 def static_execute(script, runtime, path, input_data):
     '''
@@ -12,7 +17,7 @@ def static_execute(script, runtime, path, input_data):
     Executes the given script as a seperate subprocess and stores its output in a file
     The inputs are given in advance and collected after the process finishes execution
     '''
-    file = open(path + '/op.txt', 'r+')
+    file = open(path + separator + 'op.txt', 'r+')
     file.truncate(0)
     file.close()
 
@@ -24,7 +29,7 @@ def static_execute(script, runtime, path, input_data):
                                 encoding='ascii',
                                 stdout=output_file)
         stop = time.time()
-        output_file.write('Time Taken: ' + str(stop - start) + 's\n\n')
+        output_file.write('Time Taken: ' + str(stop - start) + 's\n')
     return status.returncode
 
 def dynamic_execute(command, path, output):
