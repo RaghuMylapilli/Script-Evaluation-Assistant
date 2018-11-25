@@ -63,9 +63,9 @@ def display():
     window.geometry('600x180')
     window.resizable(False, False)
     window.title('Setup')
-    window.configure(background = 'light green')
+    window.configure(background = 'dodger blue')
 
-    student_label = Label(window, text = 'Student File', relief = RAISED)
+    student_label = Label(window, text = 'Student File',bg='white',  relief = RAISED)
     student_label.place(x = 10, y = 10, height = 30, width = 100)
 
     student_path = StringVar()
@@ -73,10 +73,10 @@ def display():
     student_entry.place(x=140, y=10, height=30, width=300)
 
     student_file = ''
-    student_browse_button = Button(window, text = 'Browse', command = open_filedialog_student)
+    student_browse_button = Button(window, text = 'Browse', bg='white', command = open_filedialog_student)
     student_browse_button.place(x = 480, y = 10, height = 30, width = 100)
 
-    course_label = Label(window, text = "C.O's", relief = RAISED)
+    course_label = Label(window, text = "C.O's",bg='white',  relief = RAISED)
     course_label.place(x = 10, y = 50, height = 30, width = 100)
 
     course_path = StringVar()
@@ -84,10 +84,10 @@ def display():
     course_entry.place(x=140, y=50, height=30, width=300)
 
     course_file = ''
-    course_browse_button = Button(window, text = 'Browse', command = open_filedialog_course)
+    course_browse_button = Button(window, text = 'Browse', bg='white', command = open_filedialog_course)
     course_browse_button.place(x = 480, y = 50, height = 30, width = 100)
 
-    script_label = Label(window, text='Scripts File', relief=RAISED)
+    script_label = Label(window, text='Scripts File', bg='white', relief=RAISED)
     script_label.place(x=10, y=90, height=30, width=100)
 
     script_path = StringVar()
@@ -95,10 +95,10 @@ def display():
     script_entry.place(x=140, y=90, height=30, width=300)
 
     script_file = ''
-    script_browse_button = Button(window, text = 'Browse', command = open_filedialog_script)
+    script_browse_button = Button(window, text = 'Browse',bg='white',  command = open_filedialog_script)
     script_browse_button.place(x=480, y=90, height=30, width=100)
 
-    loaddata_button = Button(window, text = 'Load Data', command = config_all)
+    loaddata_button = Button(window, text = 'Load Data',bg='white',  command = config_all)
     loaddata_button.place(x = 480, y = 130, height = 30, width = 100)
 
     window.mainloop()
