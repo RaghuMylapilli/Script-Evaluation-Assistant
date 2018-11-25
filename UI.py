@@ -99,7 +99,7 @@ mysql.initialise_database()
 window = Tk()
 window.geometry('1366x768')
 window.title('Script Evaluation Assistant')
-window.configure(background = 'light blue')
+window.configure(background = 'dodger blue')
 
 menubar = Menu(window)
 
