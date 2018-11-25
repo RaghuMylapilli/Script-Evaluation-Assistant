@@ -6,8 +6,8 @@ def execute(command):
     proc = Popen(command, stdin = PIPE, stdout = PIPE, shell = True)
     while proc.poll() is None:
         stdout = proc.stdout.readline().decode()
-        print(stdout[:-1])
-        proc.stdin.write(b'20\n')
+        print(stdout)
+        proc.stdin.write(b'5\n')
         with suppress(Exception):
             proc.stdin.flush()
 
@@ -15,7 +15,7 @@ def execute(command):
     print(stdout[:-1])
         
 try:
-    Popen(['gcc', 'samplec.c']).wait()
+    Popen(['gcc', 'DisplayN.c']).wait()
     execute('./a.out')
 except:
     print('error')

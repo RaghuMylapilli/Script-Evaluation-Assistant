@@ -26,6 +26,9 @@ def initialise_database():
     if ('SEA',) in databases:
         db.execute('USE SEA')
         return
+    if ('sea',) in databases:
+        db.execute('USE sea')
+        return
 
     try:
         for file in ('CreateDatabase.sql', 'Operations.sql'):
@@ -113,6 +116,7 @@ def get_weeks_list():
     db.execute(query)
     weeks = db.fetchall()
     weeks_list = [str(week[0]) for week in weeks]
+    weeks_list.sort()
     if weeks_list == []:
         return ['week no']
     return weeks_list
@@ -146,6 +150,7 @@ def get_script_names_for_week(week_no):
     db.execute(query)
     scripts = db.fetchall()
     script_names = [script[0] for script in scripts]
+    script_names.sort()
     if script_names == []:
         return ['script name']
     return tuple(script_names)

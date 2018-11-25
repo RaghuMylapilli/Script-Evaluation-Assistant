@@ -2,6 +2,9 @@ from subprocess import run, PIPE, Popen
 from contextlib import suppress
 import time
 import os
+import threading
+
+from tkinter import *
 
 separator = "/"
 if os.name == 'nt':
@@ -21,9 +24,15 @@ def static_execute(script, runtime, path, input_data):
     file.truncate(0)
     file.close()
 
+    if runtime == 'gcc':
+        Popen(['gcc', script], cwd=path).wait()
+        command = './a.out'
+    else:
+        command = ['python3', script]
+
     with open(path + '/op.txt', 'w') as output_file:
         start = time.time()
-        status = run([runtime, script],
+        status = run(command,
                                 cwd=path,
                                 input=input_data,
                                 encoding='ascii',
@@ -32,27 +41,53 @@ def static_execute(script, runtime, path, input_data):
         output_file.write('Time Taken: ' + str(stop - start) + 's\n')
     return status.returncode
 
-def dynamic_execute(command, path, output):
-    '''
-    :param command: string, command to be executed
-    :param path: the path in which the exec file is present
-    :param output: the output var to set outputs
-    :return: None
+class GCC_Dynamic_Execute:
+    def __init__(self, script, path, output):
+        if script is None or path is None or output is None: return
+        with open(path + separator + script, 'r') as script_file:
+            code = script_file.readlines()
 
-    Dynamically interacts with the program using PIPE
-    '''
-    proc = Popen(command,
-                 cwd = path,
-                 stdin = PIPE,
-                 stdout = PIPE,
-                 shell = True)
-    while proc.poll() is None:
-        stdout = proc.stdout.readline().decode()
-        print(stdout)
-        proc.stdin.write(b'10\n')
+        with open(path + separator + script, 'w') as script_file:
+            for line in code:
+                if "printf" in line and '/**/' not in line:
+                    script_file.write(line[:-1] + ' printf("\\n"); fflush(stdout); /**/' + '\n')
+                else:
+                    script_file.write(line)
+
+        Popen(['gcc', script], cwd = path).wait()
+
+        self.proc = Popen('./a.out',
+                     cwd=path,
+                     stdin=PIPE,
+                     stdout=PIPE,
+                     shell=False)
+
+        self.output = output
+        self.console_display = 'None'
+        self.get_output()
+
+    def set_input(self):
+        if self.proc.poll(): return
+        new_console = self.output.get('1.0', END)
+        new_console = new_console.replace('\n', '')
+        input_data = new_console.replace(self.console_display, '')
+        self.write_input(input_data)
+        self.get_output()
+
+    def write_input(self, input_line):
+        if self.proc.poll(): return
+        input_line = input_line + '\n'
+        self.proc.stdin.write(input_line.encode())
         with suppress(Exception):
-            proc.stdin.flush()
+            self.proc.stdin.flush()
 
+    def get_output(self):
+        if self.proc.poll(): return
+        '''while os.isatty(self.proc.stdout):
+            stdout += self.proc.stdout.readline()[:-1]'''
 
-    stdout = proc.stdout.readline().decode()
-    print(stdout)
+        stdout = self.proc.stdout.readline()
+
+        self.output.insert(INSERT, stdout)
+        self.console_display = self.output.get('1.0', END)
+        self.console_display = self.console_display.replace('\n', '')

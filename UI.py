@@ -1,4 +1,5 @@
 from tkinter import *
+from contextlib import suppress
 import mysql
 import runtime
 import spreadsheets
@@ -9,28 +10,41 @@ separator = "/"
 if os.name == 'nt':
     separator = "\\"
 
-def get_script_output():
-    roll_no = regid_var.get()
-    path = mysql.get_script_path(roll_no)
-    script_name = script_var.get()
-    script_id = mysql.get_script_id(script_name)
-    input_text = input_entry.get()
-    if input_text == '***':
-        input_text = mysql.get_input_text(script_id)
-    language = mysql.get_script_runtime(script_id)
-    execution = exec_type.get()
+class Exec_Helper:
+    process = None
+    def get_script_output():
+        roll_no = regid_var.get()
+        path = mysql.get_script_path(roll_no)
+        script_name = script_var.get()
+        script_id = mysql.get_script_id(script_name)
+        input_text = input_entry.get()
+        if input_text == '***':
+            input_text = mysql.get_input_text(script_id)
+        language = mysql.get_script_runtime(script_id)
+        execution = exec_type.get()
+        with suppress(Exception):
+            os.chdir(path)
+            os.system('rm a.out')
 
-    if execution == 'static':
-        if runtime.static_execute(script_name, language, path, input_text) == 0:
-            file = open(path + '/op.txt', 'r')
-            output = file.read()
-            file.close()
+        if execution == 'static':
+            if runtime.static_execute(script_name, language, path, input_text) == 0:
+                file = open(path + '/op.txt', 'r')
+                output = file.read()
+                file.close()
+            else:
+                output = 'ERROR!'
+            output_text.delete('1.0', END)
+            output_text.insert(INSERT, output)
         else:
-            output = 'ERROR!'
-        output_text.delete('1.0', END)
-        output_text.insert(INSERT, output)
-    else:
-        pass
+            output_text.delete('1.0', END)
+            try:
+                Exec_Helper.process = runtime.GCC_Dynamic_Execute(script_name, path, output_text)
+            except:
+                # display message = "Compile Time Error"
+                pass
+
+def enter_command(data):
+    Exec_Helper.process.set_input()
 
 def award_grade():
     try:
@@ -79,11 +93,11 @@ def save_file():
         file.write(code)
         file.close()
 
+
 mysql.initialise_database()
 
 window = Tk()
 window.geometry('1366x768')
-window.resizable(False, False)
 window.title('Script Evaluation Assistant')
 window.configure(background = 'light blue')
 
@@ -109,6 +123,8 @@ menubar.add_cascade(label='About', menu=about)
 
 '''masthead = Label(window, text = 'Desiged and Developed by Shazam')
 masthead.place(x = 450, y = 700, height = 50, width = 500)'''
+
+window.bind('<Return>', enter_command)
 
 code_label = Label(window, text = 'CODE', relief = RAISED)
 code_label.place(x = 30, y = 50, height = 30, width = 100)
@@ -157,7 +173,7 @@ static_exec.place(x = 1020, y = 270)
 dynamic_exec = Radiobutton(window, text = 'Dynamic', variable = exec_type, value = 'dynamic')
 dynamic_exec.place(x = 1100, y = 270)
 
-execute_button = Button(window, text = 'Execute', command = get_script_output)
+execute_button = Button(window, text = 'Execute', command = Exec_Helper.get_script_output)
 execute_button.place(x = 1020, y = 320, height = 30, width = 140)
 
 grade_label = Label(window, text = 'Grade', relief = RAISED)

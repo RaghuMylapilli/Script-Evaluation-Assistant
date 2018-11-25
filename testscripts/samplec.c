@@ -1,17 +1,20 @@
 #include <stdio.h>
-int main() {
-    int x, y;
-    printf("Enter x:");
-    printf("\n");
-    fflush(stdout);
-    scanf("%d", &x);
 
-    printf("Enter y:");
+int main()
+{
+    int n;
+
+    printf("Enter N value: "); /**/
     printf("\n");
-    fflush(stdout);
-    scanf("%d", &y);
-    printf("%d %d", x, y);
-    printf("\n");
-    fflush(stdout);
+    fflush(stdout); /**/
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d\n", i); /**/
+        printf("\n");
+        fflush(stdout); /**/
+    }
+
     return 0;
 }
